@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<ScrollPane hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chordcommand.view.RootLayoutController">
+   <content>
+            <GridPane fx:id="frameControlsGP" layoutX="211.0" layoutY="190.0">
+               <children>
+                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                     <children>
+                        <StackPane prefHeight="70.0" prefWidth="72.0">
+                           <children>
+                              <Circle radius="25.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Label text="?" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="48.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </StackPane>
+                     </children>
+                     <padding>
+                        <Insets right="25.0" />
+                     </padding>
+                  </HBox>
+                  <ImageView fitHeight="135.0" fitWidth="687.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                     <image>
+                        <Image url="@ChordCommandLogo%20(1).png" />
+                     </image>
+                  </ImageView>
+                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                     <children>
+                        <Label text="Recent Chords">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="35.0" />
+                           </VBox.margin>
+                        </Label>
+                        <ListView opacity="0.0" prefHeight="200.0" prefWidth="200.0" />
+                     </children>
+                  </VBox>
+                  <MenuBar style="-fx-background-color: derive(ececec,26.4%);" GridPane.columnIndex = "0" GridPane.rowIndex = "0">
+                    <menus>
+                      <Menu mnemonicParsing="false">
+                        <items>
+                              <MenuItem mnemonicParsing="false" text="Preferences" />
+                              <MenuItem mnemonicParsing="false" text="About" />
+                          <MenuItem mnemonicParsing="false" text="Close" />
+                        </items>
+                           <graphic>
+                              <ImageView fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@menu_icon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                      </Menu>
+                    </menus>
+                  </MenuBar>
+            <HBox fx:id="centerPane" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <children>
+                </children>
+            </HBox>
+               </children>
+            </GridPane>
+   </content>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</ScrollPane>
