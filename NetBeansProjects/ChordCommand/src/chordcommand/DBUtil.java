@@ -1,7 +1,13 @@
 package chordcommand;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.apache.commons.dbcp2.*;
 
 /**
@@ -20,15 +26,43 @@ public class DBUtil
         dbProps = pUtil.loadParams(FILE_NAME);
     }
     
-    private static BasicDataSource getDataSource()
+    protected static BasicDataSource getDataSource()
     {
-        if(ds == null)
+        if(ds == null || ds.isClosed())
         {
-            ds = new BasicDataSource();
-            ds.setUrl(dbProps.getProperty("dbPath"));
-            ds.setUsername(dbProps.getProperty("dbUser"));
-            ds.setPassword(dbProps.getProperty("dbPW"));
+            BasicDataSource source = new BasicDataSource();
+            source.setDriverClassName(dbProps.getProperty("driverClass"));
+            source.setUrl(dbProps.getProperty("dbPath"));
+            source.setUsername(dbProps.getProperty("dbUser"));
+            source.setPassword(dbProps.getProperty("dbPW"));
+            ds = source;
         }
         return ds;
+    }
+    
+    /**
+     * Retrieve a set of records from db and fill an ObservableList with
+     * values from 1 column in the ResultSet
+     * @param query
+     * @param colName   Name of column from which list values derive
+     * @return
+     * @throws SQLException 
+     */
+    protected ObservableList<String> toList(String query, String colName) throws SQLException
+    {
+        ObservableList<String> list = FXCollections.observableArrayList();
+        try (BasicDataSource source = DBUtil.getDataSource(); 
+		Connection connection = source.getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(query))
+	{
+            while(rs.next())
+                list.add(rs.getString(colName));
+	}
+	catch (Exception e)
+	{
+            e.printStackTrace();
+	}
+        return list;
     }
 }

@@ -26,8 +26,8 @@
                      <children>
                         <StackPane prefHeight="70.0" prefWidth="72.0">
                            <children>
-                              <Circle radius="25.0" stroke="BLACK" strokeType="INSIDE" />
-                              <Label text="?" textFill="WHITE">
+                              <Circle onMouseClicked="#handleHelp" radius="25.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Label onMouseClicked="#handleHelp" text="?" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="48.0" />
                                  </font>
@@ -57,7 +57,7 @@
                         <ListView opacity="0.0" prefHeight="200.0" prefWidth="200.0" />
                      </children>
                   </VBox>
-                  <MenuBar style="-fx-background-color: derive(ececec,26.4%);" GridPane.columnIndex = "0" GridPane.rowIndex = "0">
+                  <MenuBar style="-fx-background-color: derive(ececec,26.4%);" GridPane.columnIndex="0" GridPane.rowIndex="0">
                     <menus>
                       <Menu mnemonicParsing="false">
                         <items>
@@ -80,6 +80,15 @@
                 </children>
             </HBox>
                </children>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
             </GridPane>
    </content>
    <padding>

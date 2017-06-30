@@ -5,6 +5,7 @@
  */
 package chordcommand.view;
 
+import chordcommand.ChordCommand;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,13 +34,16 @@ public class ChordViewController {
     @FXML
     private ComboBox<String> instrCombo;
     private ObservableList<String> instrComboData = FXCollections.observableArrayList();
+    
+    private ChordCommand main;
 
     /**
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
      */
     @FXML
-    private void initialize() {
+    private void initialize() 
+    {
         pitchRBs.selectedToggleProperty().addListener(
             (ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) -> 
             {
@@ -58,6 +62,24 @@ public class ChordViewController {
         );
     }
 
+    public void setCombos(ObservableList<String> data1, ObservableList<String> data2)
+    {
+        instrCombo.setItems(data1);
+        pitchCombo.setItems(data2);
+        
+        instrCombo.setValue("Flute");
+        pitchCombo.setValue("C");
+    }
+    
+        /**
+     * Called by main, so this class has a reference to it
+     * @param main 
+     */
+    public void setMainApp(ChordCommand main)
+    {
+        this.main = main;
+    }
+    
     @FXML
     private void handleClick(MouseEvent event)
     {
