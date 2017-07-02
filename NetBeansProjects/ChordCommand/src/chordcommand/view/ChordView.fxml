@@ -161,7 +161,7 @@
                   </HBox>
                   <FlowPane alignment="BOTTOM_RIGHT" columnHalignment="RIGHT" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <children>
-                        <Button mnemonicParsing="false" text="Submit" />
+                        <Button mnemonicParsing="false" onMouseClicked="#handleSubmit" text="Submit" />
                      </children>
                      <opaqueInsets>
                         <Insets />

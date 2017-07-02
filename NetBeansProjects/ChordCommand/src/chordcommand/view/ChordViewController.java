@@ -6,6 +6,11 @@
 package chordcommand.view;
 
 import chordcommand.ChordCommand;
+import chordcommand.ChordUtil;
+import chordcommand.Chord;
+import chordcommand.MajorKey;
+import java.sql.SQLException;
+import java.text.Normalizer;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,6 +41,7 @@ public class ChordViewController {
     private ObservableList<String> instrComboData = FXCollections.observableArrayList();
     
     private ChordCommand main;
+    private ChordUtil cu;
 
     /**
      * Initializes the controller class. This method is automatically called
@@ -88,4 +94,48 @@ public class ChordViewController {
     }
     
     
+    private void handleSubmit(MouseEvent event)
+    {
+        String entry = symbolTF.getText();
+        String origEntry = entry;
+        MajorKey mKey = null;
+        Chord chord1;
+        
+        if(!entry.equals(""))
+        {
+            try
+            {
+                cu = new ChordUtil();
+                if(cu.isValidInput(entry, "^[A-G]?[b♭]?[majsuind1-9\\+\\-#°øΔ]{1,12}$", Normalizer.Form.NFD))
+                {
+                    String key = cu.extractKey(entry);
+                    if(key != null)
+                    {
+                        mKey = cu.buildKey(key);
+                        if(key.length() == 2)
+                            entry = entry.substring(2);
+                        else
+                            entry = entry.substring(1);
+                    }
+                    // Regardless, proceed with building chord
+                    entry = cu.formatSymbol(entry);
+                    chord1 = cu.buildChord(entry, mKey);
+                    chord1.setDisplayName(origEntry);
+                }
+                else
+                {
+                    // Highlight illegal char
+                }
+                
+            }
+            catch(SQLException ex)
+            {
+                
+            }
+        }
+        else
+        {
+            // Highlight missing entry
+        }
+    }
 }
