@@ -21,6 +21,8 @@ private int[] majorSuffixes;
     public MajorKey(String name)
     {
         keyName = name;
+        majorPitches = new char[8];
+        majorSuffixes = new int[8];
         setPitches(keyName.charAt(0));
     }
     
@@ -38,12 +40,9 @@ private int[] majorSuffixes;
         // Get displacement of @letter from A
         // Example: C = 67, 67 % 65 = 2, C is 2 away from A
         int j = start % 65;
-        int ascii;
+        int ascii;        
         
-        // Set index 0 to meaningless value
-        majorPitches[0] = ' ';
-        
-        for(int i = 1; i <= 8; i++)
+        for(int i = 0; i < 7; i++)
         {
             // 65 plus value from 0 - 7
             ascii = 65 + (j % 7);
@@ -60,10 +59,7 @@ private int[] majorSuffixes;
     {
         String[] suffs = suffixes.split(",");
         
-        // Put meaningless value at 0
-        majorSuffixes[0] = 10;
-        
-        for(int i = 0; i < 8; i++)
+        for(int i = 0; i < 7; i++)
             majorSuffixes[i] = Integer.valueOf(suffs[i]);
     }
     
