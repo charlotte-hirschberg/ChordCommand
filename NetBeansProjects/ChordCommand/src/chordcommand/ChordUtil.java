@@ -21,8 +21,10 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 public class ChordUtil 
 {
+    private static AccidentalMap am;
     private PreparedStatement psMajKey;
     private PreparedStatement psChordData;
+    private PreparedStatement psGetScales;
     /**
      * Constructor prepares a series of PreparedStatements to be used repeatedly
      * while building Chord and Scale objects
@@ -31,12 +33,19 @@ public class ChordUtil
      */
     public ChordUtil() throws SQLException
     {
-        BasicDataSource source = DBUtil.getDataSource();
-        Connection conn = source.getConnection();
-        psMajKey = conn.prepareStatement("SELECT MajorSuffixes FROM MajorKeyLU WHERE MajorKeyName = ?");
-        psChordData = conn.prepareStatement("SELECT ChordStruc, ChordSuffixes "
-                + "FROM SymbolConversion as sc JOIN ChordStructure as cst ON sc.ChordStructID = cst.ChordStrucID "
-                + "WHERE ChordID = ?");
+        am = new AccidentalMap();
+        try (BasicDataSource source = DBUtil.getDataSource();
+            Connection conn = source.getConnection();)
+        {
+            psMajKey = conn.prepareStatement("SELECT MajorSuffixes FROM MajorKeyLU WHERE MajorKeyName = ?");
+            psChordData = conn.prepareStatement("SELECT ChordID, ChordStruc, ChordSuffixes "
+                    + "FROM SymbolConversion as sc JOIN ChordStructure as cst ON sc.ChordStructID = cst.ChordStrucID "
+                    + "WHERE ChordSymbol = ?");
+            psGetScales = conn.prepareStatement("SELECT ScaleName, WHForm, ScaleSuffixes, ScaleStruc "
+                    + "FROM Scales as sc JOIN ScalesChords as br ON sc.ScaleID = br.ScaleID "
+                    + "JOIN SymbolConversion as sym ON br.ChordID = sym.ChordID WHERE sym.ChordID = ?;");
+        }
+
     }
     /**
      * Convert text to given Form if provided. Otherwise, normalize with NFC.
@@ -67,11 +76,15 @@ public class ChordUtil
      */
     public String extractKey(String entry)
     {
+        Pattern rgx1 = Pattern.compile("^[A-G].*");
+        
         // Starts with A,B,C,D,E,F,or G
-        if(Pattern.matches("^[A-G]", entry))
+        if(rgx1.matcher(entry).matches())
         {
+            Pattern rgx2 = Pattern.compile("^[A-G][b♭].*");
+            
             // Letter followed by flat symbol
-            if(Pattern.matches("^[A-G][b♭]", entry))
+            if(rgx2.matcher(entry).matches())
                return entry.substring(0, 2);            // return 2 char
             else
                 return String.valueOf(entry.charAt(0)); // return single letter
@@ -92,11 +105,18 @@ public class ChordUtil
     {
         MajorKey mKey = new MajorKey(key);
         
-        psMajKey.setString(1, String.valueOf(key.charAt(0)));
-        ResultSet rs = psMajKey.executeQuery();
-        
-        if(rs != null)
-            mKey.setSuffixes(rs.getString(1));
+        psMajKey.setString(1, key);
+        try(ResultSet rs = psMajKey.executeQuery())
+        {
+            if(rs.next())
+            {
+                mKey.setSuffixes(rs.getString("MajorSuffixes"));
+            }
+            else
+            {
+                // Alert no such key
+            }
+        }
         
         return mKey;
     }
@@ -138,21 +158,53 @@ public class ChordUtil
     
     public Chord buildChord(String entry, MajorKey mKey) throws SQLException
     {
-        Chord chord1;
+        Chord chord1 = null;
         
         psChordData.setString(1, entry);
-        ResultSet rs = psChordData.executeQuery();
-        
-        // If rs is null, SQLException occurs
-        // Otherwise, execution proceeds
-        chord1 = new Chord();
-        chord1.setMajKey(mKey);
-        chord1.setDBName(entry);
-        chord1.setChordNums(rs.getString("ChordStruc"));
-        chord1.setChordNumArr(rs.getString("ChordStruc"));
-        chord1.setChordSuffsArr(rs.getString("ChordSuffixes"));
-        chord1.setPitches();
+        try(ResultSet rs = psChordData.executeQuery())
+        {
+            if(rs.next())
+            {
+                chord1 = new Chord();
+                chord1.setMajKey(mKey);
+                chord1.setDBName(entry);
+                chord1.setID(rs.getInt("ChordID"));
+                chord1.setNumArr(rs.getString("ChordStruc"));
+                chord1.setSuffsArr(rs.getString("ChordSuffixes"));
+                chord1.setDisplayVals();
+            }
+            else
+            {
+                // Alert chord not found
+            }
+        }
         
         return chord1;
+    }
+    
+    public void buildScales(Chord chord) throws SQLException
+    {
+        psGetScales.setString(1, String.valueOf(chord.getId()));
+        try(ResultSet rs = psGetScales.executeQuery())
+        {
+            MajorKey mKey = chord.getMajKey();
+            while(rs.next())
+            {
+                // Get the name, WH form, numbers, and suffixes
+                String name = rs.getString("ScaleName");
+                String wh = rs.getString("WHForm");
+                String nums = rs.getString("ScaleStruc");
+                String suffx = rs.getString("ScaleSuffixes");
+                
+                // Call Scale constructor to handle building pertinent arrays
+                Scale scale1 = new Scale(name, wh, mKey);
+                scale1.setNumArr(nums);
+                scale1.setSuffsArr(suffx);
+                scale1.setDisplayVals();
+                
+                // Add this scale to Chord's list
+                chord.addScale(scale1);
+            }
+        }
     }
 }

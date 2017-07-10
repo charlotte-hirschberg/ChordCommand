@@ -4,8 +4,12 @@
 
 package chordcommand.view;
 
+import chordcommand.Chord;
 import chordcommand.ChordCommand;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
@@ -15,6 +19,10 @@ public class RootLayoutController {
     private GridPane frameControlsGP;
     @FXML
     private HBox centerPane;
+    
+    @FXML
+    private ListView<Chord> recentChords;
+    private ObservableList<Chord> chordList = FXCollections.observableArrayList();
     
     private ChordCommand main;
 
@@ -52,4 +60,6 @@ public class RootLayoutController {
     {
         main.showHelpView();
     }
+    
+    
 }
