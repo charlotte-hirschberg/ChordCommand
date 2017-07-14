@@ -72,12 +72,15 @@ public class MusicStructure {
             /*Add two suffixes and use the sum to determine the accidental
             that occurs when this structure's tonality is applied to the 
             major key*/
-            int alter = mKey.getSuff(iMod) + suffxs.get(ctNotes);
+            
+            int genAlter = suffxs.get(ctNotes);
+            int alter = mKey.getSuff(iMod) + genAlter;
+            String genAccidental = am.getAccidental(genAlter);
             String accidental = am.getAccidental(alter);
             
             // Build numeric structure with accidental + number, i.e. #3
-            strNums += accidental;
-            strNums += String.valueOf(i) + " ";
+            strNums += genAccidental;
+            strNums += String.valueOf(i) + ",";
             
             
             /*Build pitch structure with letter + accidental, i.e. Cb*/  
@@ -85,7 +88,7 @@ public class MusicStructure {
             char pitchName = mKey.getPitch(iMod);
             
             // Append the pitch name and accidental
-            strPitches += String.valueOf(pitchName) + accidental + " ";
+            strPitches += String.valueOf(pitchName) + accidental + ",";
             ctNotes++;
         }
     }

@@ -34,15 +34,16 @@ public class ChordUtil
     public ChordUtil() throws SQLException
     {
         am = new AccidentalMap();
-        try (BasicDataSource source = DBUtil.getDataSource();
-            Connection conn = source.getConnection();)
-        {
+        try (BasicDataSource source = DBUtil.getDataSource())
+        { 
+            Connection conn = source.getConnection();
             psMajKey = conn.prepareStatement("SELECT MajorSuffixes FROM MajorKeyLU WHERE MajorKeyName = ?");
             psChordData = conn.prepareStatement("SELECT ChordID, ChordStruc, ChordSuffixes "
                     + "FROM SymbolConversion as sc JOIN ChordStructure as cst ON sc.ChordStructID = cst.ChordStrucID "
                     + "WHERE ChordSymbol = ?");
             psGetScales = conn.prepareStatement("SELECT ScaleName, WHForm, ScaleSuffixes, ScaleStruc "
-                    + "FROM Scales as sc JOIN ScalesChords as br ON sc.ScaleID = br.ScaleID "
+                    + "FROM Scales as sc JOIN ScaleStructure as ss ON sc.ScaleStrucID = ss.ScaleStrucID "
+                    + "JOIN ScalesChords as br ON sc.ScaleID = br.ScaleID "
                     + "JOIN SymbolConversion as sym ON br.ChordID = sym.ChordID WHERE sym.ChordID = ?;");
         }
 
@@ -184,7 +185,7 @@ public class ChordUtil
     
     public void buildScales(Chord chord) throws SQLException
     {
-        psGetScales.setString(1, String.valueOf(chord.getId()));
+        psGetScales.setInt(1, chord.getId());
         try(ResultSet rs = psGetScales.executeQuery())
         {
             MajorKey mKey = chord.getMajKey();
