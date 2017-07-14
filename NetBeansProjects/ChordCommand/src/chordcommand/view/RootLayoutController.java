@@ -6,6 +6,7 @@ package chordcommand.view;
 
 import chordcommand.Chord;
 import chordcommand.ChordCommand;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,7 +20,8 @@ public class RootLayoutController {
     private GridPane frameControlsGP;
     @FXML
     private HBox centerPane;
-    
+    @FXML
+    private HBox holdHelp;
     @FXML
     private ListView<Chord> recentChords;
     private ObservableList<Chord> chordList = FXCollections.observableArrayList();
@@ -32,7 +34,8 @@ public class RootLayoutController {
      * after the fxml file has been loaded.
      */
     @FXML
-    private void initialize() {
+    private void initialize() 
+    {
     }
     
     /**
@@ -42,6 +45,11 @@ public class RootLayoutController {
     public void setMainApp(ChordCommand main)
     {
         this.main = main;
+    }
+    
+    public void setGridWidth(ReadOnlyDoubleProperty w)
+    {
+        frameControlsGP.prefWidthProperty().bind(w);
     }
     
     /**

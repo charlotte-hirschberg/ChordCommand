@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="676.0" prefWidth="1023.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chordcommand.view.HelpViewController">
+<AnchorPane id="AnchorPane" fx:id="helpPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="676.0" prefWidth="1023.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chordcommand.view.HelpViewController">
    <children>
       <BorderPane layoutX="80.0" layoutY="35.0" prefHeight="711.0" prefWidth="1053.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
          <top>

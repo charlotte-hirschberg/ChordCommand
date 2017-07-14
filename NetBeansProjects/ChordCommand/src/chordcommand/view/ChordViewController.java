@@ -114,7 +114,7 @@ public class ChordViewController {
             try
             {
                 cu = new ChordUtil();
-                if(cu.isValidInput(entry, "^[A-G]?[b♭]?[majsuinbd1-9\\+\\-#°øΔ]{1,12}$", Normalizer.Form.NFD))
+                if(cu.isValidInput(entry, "^[A-G]?[b♭]?[majsuinbd1-9\\+\\-#°ø♭Δ]{1,12}$", Normalizer.Form.NFD))
                 {
                     String key = cu.extractKey(entry);
                     if(key != null)
@@ -167,6 +167,7 @@ public class ChordViewController {
         }
     }
     
+    
     private void showScaleDetails(Chord chord)
     {
         if(chord != null)
@@ -192,6 +193,7 @@ public class ChordViewController {
                 
                 root.getChildren().add(name);
             }
+            scaleTree.setRoot(root);
             scaleTree.setShowRoot(false);
         }
         
