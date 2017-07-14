@@ -14,6 +14,7 @@ import chordcommand.view.HelpViewController;
 import chordcommand.view.RootLayoutController;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -34,6 +35,9 @@ public class ChordCommand extends Application {
     private DBUtil dbUtil;
     private ObservableList<String> instrComboData = FXCollections.observableArrayList();
     private ObservableList<String> pitchComboData = FXCollections.observableArrayList();
+    private final static String PREF_FILE = "userprefs.properties";
+    private PropertiesUtil pu;
+    private Properties prefs;
 
     @Override
     public void start(Stage primaryStage) 
@@ -44,8 +48,48 @@ public class ChordCommand extends Application {
         initDB();
         initRootLayout();
         setCombos();
-        showHelpView();
+        getPrefs();
         showChordView();
+        
+        // Show help view only if it is enabled to show up on startup
+        if("1".equals(prefs.getProperty("showHelp")))
+            showHelpView();
+        
+        
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run()
+            {
+                try 
+                {
+                    pu.saveParamChanges(prefs, PREF_FILE);
+                } 
+                catch (IOException ex) 
+                {
+                    Logger.getLogger(ChordCommand.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }); 
+    }
+    
+    /**
+     * Get a user's preferences and create a Properties object with them
+     */
+    public void getPrefs()
+    {
+        pu = new PropertiesUtil();
+        try 
+        {
+            prefs = pu.loadParams(PREF_FILE);
+        } 
+        catch (IOException ex) {
+            Logger.getLogger(ChordCommand.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void setSinglePref(String key, String value)
+    {
+        prefs.setProperty(key, value);
     }
     
     /**
@@ -114,37 +158,44 @@ public class ChordCommand extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
+            primaryStage.setMaximized(true);
             
             RootLayoutController ctrller = loader.getController();
             centerPane = ctrller.getCenterPane();
             ctrller.setMainApp(this);
+            ctrller.setGridWidth(primaryStage.widthProperty());
             
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     
-        public void showHelpView() {
-        try {
-            // Load person overview.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(ChordCommand.class.getResource("view/HelpView.fxml"));
-            AnchorPane helpView = (AnchorPane) loader.load();
+    public void showHelpView() 
+    {
+            try 
+            {
+                // Load person overview.
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(ChordCommand.class.getResource("view/HelpView.fxml"));
+                AnchorPane helpView = (AnchorPane) loader.load();
             
-            // Create the dialog Stage.
-            Stage helpStage = new Stage();
-            helpStage.setTitle("Quick Start Guide");
-            helpStage.initOwner(primaryStage);
-            Scene scene = new Scene(helpView);
-            helpStage.setScene(scene);
-            helpStage.show();            
+                // Create the dialog Stage.
+                Stage helpStage = new Stage();
+                helpStage.setTitle("Quick Start Guide");
+                helpStage.initOwner(primaryStage);
+                Scene scene = new Scene(helpView);
+                helpStage.setScene(scene);
+                helpStage.show();            
 
-    // Set the person into the controller.
-            HelpViewController controller = loader.getController();
-            controller.setHelpStage(helpStage);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                // Set the person into the controller.
+                HelpViewController controller = loader.getController();
+                controller.setHelpStage(helpStage);
+                controller.setMainApp(this);
+            } 
+            catch (IOException e) 
+            {
+                e.printStackTrace();
+            }
     }
         
     public void showChordView() {
