@@ -12,10 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 /**
  *
@@ -42,24 +39,9 @@ public class PropertiesUtil
         return props;
     }
     
-    public Properties loadParamsFromXML(String fileName) throws FileNotFoundException, IOException
-    {
-        Properties props = new Properties();
-        File f = new File(fileName);
-        InputStream in = new FileInputStream(f);
-        props.loadFromXML(in);
-        
-        return props;
-    }
-    
-    public void saveParamChanges(HashMap<String,String> hm, String fileName) 
+    public void saveParamChanges(Properties props, String fileName) 
             throws FileNotFoundException, IOException
     {
-        Properties props = new Properties();
-        Set<Map.Entry<String,String>> entries = hm.entrySet();
-        entries.stream().forEach((entry) -> {
-            props.setProperty(entry.getKey(), entry.getValue());
-        });
         OutputStream out = new FileOutputStream(new File(fileName));
         props.store(out, null);
     }
