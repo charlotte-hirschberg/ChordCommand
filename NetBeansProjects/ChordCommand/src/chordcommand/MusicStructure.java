@@ -18,6 +18,7 @@ public class MusicStructure {
     private String strNums;
     private ArrayList<Integer> nums;
     private ArrayList<Integer> suffxs;
+    
     private String strPitches;
     
     public MusicStructure()
@@ -61,20 +62,25 @@ public class MusicStructure {
         fillArr(suffs, suffxs);
     }
     
+
     public void setDisplayVals()
     {
         int ctNotes = 0;
+        
         for(Integer i : nums)
-        {
+        {            
             // Get the index of the corresponding pitch name
             int iMod = (i - 1) % 7;
+            
+            
             
             /*Add two suffixes and use the sum to determine the accidental
             that occurs when this structure's tonality is applied to the 
             major key*/
             
             int genAlter = suffxs.get(ctNotes);
-            int alter = mKey.getSuff(iMod) + genAlter;
+            int alter = mKey.getSuff(iMod) + genAlter; 
+            
             String genAccidental = am.getAccidental(genAlter);
             String accidental = am.getAccidental(alter);
             
