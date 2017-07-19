@@ -9,7 +9,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.TreeView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
@@ -21,9 +20,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="778.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chordcommand.view.ChordViewController">
-   <children>
-      <VBox layoutX="5.0" layoutY="14.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="14.0">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chordcommand.view.ChordViewController">
          <children>
             <Label text="Type or enter selections below to enter a chord symbol">
                <font>
@@ -31,36 +28,38 @@
                </font>
                <VBox.margin>
                   <Insets bottom="10.0" />
-               </VBox.margin></Label>
+               </VBox.margin>
+            </Label>
             <GridPane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="197.0" prefWidth="700.0" VBox.vgrow="NEVER">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.00000762939453" minWidth="10.0" prefWidth="160.6666717529297" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="935.3333740234375" minWidth="10.0" prefWidth="351.33331298828125" />
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.00000762939453" minWidth="10.0" prefWidth="160.6666717529297" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="935.3333740234375" minWidth="10.0" prefWidth="351.33331298828125" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="732.6666259765625" minWidth="0.0" prefWidth="188.66668701171875" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="169.0" minHeight="10.0" prefHeight="99.33332824707031" vgrow="NEVER" />
-                <RowConstraints fillHeight="false" maxHeight="207.0" minHeight="0.0" prefHeight="64.0" vgrow="NEVER" />
-                <RowConstraints maxHeight="232.0" minHeight="0.0" prefHeight="31.999984741210938" valignment="CENTER" vgrow="NEVER" />
-              </rowConstraints>
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="169.0" minHeight="10.0" prefHeight="99.33332824707031" vgrow="NEVER" />
+                  <RowConstraints fillHeight="false" maxHeight="207.0" minHeight="0.0" prefHeight="64.0" vgrow="NEVER" />
+                  <RowConstraints maxHeight="232.0" minHeight="0.0" prefHeight="31.999984741210938" valignment="CENTER" vgrow="NEVER" />
+               </rowConstraints>
                <children>
                   <GridPane prefHeight="102.0" prefWidth="134.0" vgap="5.0" GridPane.hgrow="NEVER">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints fillHeight="false" minHeight="0.0" prefHeight="30.0" vgrow="NEVER" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints fillHeight="false" minHeight="0.0" prefHeight="30.0" vgrow="NEVER" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
                      <children>
                         <RadioButton mnemonicParsing="false" text="B" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <toggleGroup>
                               <ToggleGroup fx:id="pitchRBs" />
-                           </toggleGroup></RadioButton>
+                           </toggleGroup>
+                        </RadioButton>
                         <RadioButton mnemonicParsing="false" text="C" toggleGroup="$pitchRBs" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                         <RadioButton mnemonicParsing="false" text="D" toggleGroup="$pitchRBs" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                         <RadioButton mnemonicParsing="false" text="E" toggleGroup="$pitchRBs" GridPane.rowIndex="2" />
@@ -71,19 +70,19 @@
                      </children>
                   </GridPane>
                   <GridPane fx:id="qualities" hgap="2.0" prefHeight="102.0" prefWidth="319.0" vgap="5.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
                      <children>
                         <Button minWidth="50.0" mnemonicParsing="false" onMouseClicked="#handleClick" text="maj" textAlignment="CENTER" GridPane.rowIndex="1" />
                         <Button minWidth="50.0" mnemonicParsing="false" onMouseClicked="#handleClick" text="min" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -102,17 +101,17 @@
                      </GridPane.margin>
                   </GridPane>
                   <GridPane hgap="2.0" prefHeight="102.0" prefWidth="168.0" GridPane.columnIndex="2">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
                      <children>
                         <Button minWidth="38.0" mnemonicParsing="false" onMouseClicked="#handleClick" text="7" GridPane.rowIndex="1" />
                         <Button minWidth="38.0" mnemonicParsing="false" onMouseClicked="#handleClick" text="9" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -175,16 +174,16 @@
                   <Insets />
                </VBox.margin>
             </GridPane>
-            <GridPane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="90.0" prefWidth="513.0" VBox.vgrow="NEVER">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="342.0" minWidth="10.0" percentWidth="50.0" prefWidth="282.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="512.0" minWidth="10.0" prefWidth="512.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
+            <GridPane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="234.0" prefWidth="513.0" VBox.vgrow="ALWAYS">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="342.0" minWidth="10.0" percentWidth="50.0" prefWidth="282.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="512.0" minWidth="10.0" prefWidth="512.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
                <VBox.margin>
                   <Insets top="60.0" />
                </VBox.margin>
@@ -199,11 +198,15 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextArea fx:id="chordTA" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" />
-                  <TreeView fx:id="scaleTree" minWidth="-Infinity" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <TextArea fx:id="chordTA" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+               <padding>
+                  <Insets right="5.0" />
+               </padding></TextArea>
+                  <TreeView fx:id="scaleTree" minWidth="-Infinity" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
-                        <Insets right="25.0" />
-                     </GridPane.margin></TreeView>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </TreeView>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Label text="You entered:">
@@ -223,10 +226,10 @@
                   </HBox>
                </children>
             </GridPane>
-            <Pane prefHeight="200.0" prefWidth="200.0">
+            <Pane fx:id="pianoPane">
                <children>
                   <Rectangle id="1" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="220.0" stroke="BLACK" strokeType="INSIDE" width="48.0" />
-                  <Rectangle id="5" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="220.0" layoutX="49.0" stroke="BLACK" strokeType="INSIDE" width="48.0" x="47.0" />
+                  <Rectangle id="5" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="220.0" layoutX="96.0" stroke="BLACK" strokeType="INSIDE" width="48.0" />
                   <Rectangle id="8" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="220.0" layoutX="192.0" stroke="BLACK" strokeType="INSIDE" width="48.0" />
                   <Rectangle id="10" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="220.0" layoutX="240.0" stroke="BLACK" strokeType="INSIDE" width="48.0" />
                   <Rectangle id="6" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="220.0" layoutX="144.0" stroke="BLACK" strokeType="INSIDE" width="48.0" />
@@ -255,6 +258,7 @@
                </VBox.margin>
             </Pane>
          </children>
-      </VBox>
-   </children>
-</AnchorPane>
+   <padding>
+      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+   </padding>
+         </VBox>
