@@ -227,7 +227,7 @@ public class ChordCommand extends Application {
             
             ChordViewController ctrller = loader.getController();
             ctrller.setMainApp(this);
-            ctrller.setCombos(instrComboData, pitchComboData);
+            ctrller.setCombo(instrComboData, "Flute");
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -253,6 +253,7 @@ public class ChordCommand extends Application {
             
             PrefDialogController ctrller = loader.getController();
             ctrller.setMainApp(this);
+            ctrller.setHelpStage(prefStage);
             ctrller.initCBValues();
         } 
         

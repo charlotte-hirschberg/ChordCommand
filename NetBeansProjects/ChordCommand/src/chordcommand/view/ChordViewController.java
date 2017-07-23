@@ -13,18 +13,14 @@ import chordcommand.PianoMap;
 import chordcommand.Scale;
 import java.sql.SQLException;
 import java.text.Normalizer;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
@@ -40,12 +36,7 @@ import javafx.scene.shape.Rectangle;
 public class ChordViewController {
 
     @FXML
-    private ToggleGroup pitchRBs;
-    @FXML
     private TextField symbolTF;
-    @FXML
-    private ComboBox<String> pitchCombo;
-    private ObservableList<String> pitchComboData = FXCollections.observableArrayList();
     @FXML
     private ComboBox<String> instrCombo;
     private ObservableList<String> instrComboData = FXCollections.observableArrayList();
@@ -66,31 +57,12 @@ public class ChordViewController {
     @FXML
     private void initialize() 
     {
-        pitchRBs.selectedToggleProperty().addListener(
-            (ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) -> 
-            {
-                if (pitchRBs.getSelectedToggle() != null) 
-                {
-                    RadioButton pitch = (RadioButton)pitchRBs.getSelectedToggle(); // Cast object to radio button
-                    String chosenPitch = pitch.getText();
-                    String currText = symbolTF.getText();
-                    
-                    if(!"".equals(currText))
-                        symbolTF.setText(chosenPitch + currText.substring(1));
-                    else
-                        symbolTF.setText(chosenPitch);
-                }    
-            }
-        );
     }
 
-    public void setCombos(ObservableList<String> data1, ObservableList<String> data2)
+    public void setCombo(ObservableList<String> data1, String title)
     {
         instrCombo.setItems(data1);
-        pitchCombo.setItems(data2);
-        
-        instrCombo.setValue("Flute");
-        pitchCombo.setValue("C");
+        instrCombo.setValue(title);
     }
     
         /**
