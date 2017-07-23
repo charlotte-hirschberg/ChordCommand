@@ -10,6 +10,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.stage.Stage;
 
 /**
  *
@@ -17,6 +18,7 @@ import javafx.scene.control.CheckBox;
  */
 public class PrefDialogController 
 {
+    private Stage prefStage;
     @FXML
     private Button btnCancel;
     @FXML
@@ -51,8 +53,6 @@ public class PrefDialogController
         checks[3] = cbScaleNum;
         checks[4] = cbWH;
         
-
-        
         cbAnyScale.selectedProperty().addListener(
                 (ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> 
                 {
@@ -76,10 +76,53 @@ public class PrefDialogController
             cb.setSelected(isSelected);
         }
    }
+   
+     /**
+     * Sets the stage of this dialog.
+     * 
+     * @param prefStage
+     */
+    public void setHelpStage(Stage prefStage) {
+        this.prefStage = prefStage;
+        prefStage.setResizable(false);
+    }
     
+    /**
+     * Handle event on OK button by processing checkbox selections
+     */
     public void handleOK()
     {
-        // Get the value 
+        /*First 3 options require no special handling.
+        Just get an ID and selectedProperty() and set the
+        corresponding Properties value*/
+        for(int i = 0; i < 3; i++)
+            main.setSinglePref(checks[i].getId(), String.valueOf(checks[i].isSelected()));
+        
+        /*Options 4 & 5 are dependent on Show Scales value*/
+        
+        /*'Show Scales' is selected, so change its children to reflect their
+        current state, whatever it */
+        if(checks[2].isSelected() == true)
+        {
+            main.setSinglePref(checks[3].getId(), String.valueOf(checks[3].isSelected()));
+            main.setSinglePref(checks[4].getId(), String.valueOf(checks[4].isSelected()));
+        }
+        
+        //'Show Scales' was deselected, so deselect its children
+        else
+        {
+            main.setSinglePref(checks[3].getId(), "false");
+            main.setSinglePref(checks[4].getId(), "false");
+        }
+        handleCancel();
+    }
+    
+    /**
+     * Closes the Preferences dialog without recording changes
+     */
+    public void handleCancel()
+    {
+        prefStage.close();
     }
    
 }

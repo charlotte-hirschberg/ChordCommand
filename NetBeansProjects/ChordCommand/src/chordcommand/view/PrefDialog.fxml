@@ -49,7 +49,7 @@
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#handleOK" prefWidth="64.0" text="OK" />
-                  <Button mnemonicParsing="false" text="Cancel" />
+                  <Button mnemonicParsing="false" onMouseReleased="#handleCancel" text="Cancel" />
                </children>
                <VBox.margin>
                   <Insets top="25.0" />
