@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="400.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chordcommand.view.PrefDialogController">
    <children>
       <VBox layoutX="149.0" layoutY="54.0" prefHeight="350.0" prefWidth="400.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -21,8 +20,8 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </HBox>
-            <CheckBox mnemonicParsing="false" selected="true" text="Show Numeric Format" />
-            <CheckBox mnemonicParsing="false" selected="true" text="Show Piano">
+            <CheckBox id="showChordNum" fx:id="cbChordNum" mnemonicParsing="false" selected="true" text="Show Numeric Format" />
+            <CheckBox id="showPiano" fx:id="cbPiano" mnemonicParsing="false" selected="true" text="Show Piano">
                <VBox.margin>
                   <Insets bottom="20.0" />
                </VBox.margin>
@@ -36,21 +35,21 @@
                   </Label>
                </children>
             </HBox>
-            <CheckBox mnemonicParsing="false" selected="true" text="Show Scales" />
-            <CheckBox mnemonicParsing="false" selected="true" text="Show Numeric Format">
+            <CheckBox id="showAnyScale" fx:id="cbAnyScale" mnemonicParsing="false" selected="true" text="Show Scales" />
+            <CheckBox id="showScaleNum" fx:id="cbScaleNum" mnemonicParsing="false" selected="true" text="Show Numeric Format">
                <VBox.margin>
                   <Insets left="30.0" />
                </VBox.margin>
             </CheckBox>
-            <CheckBox mnemonicParsing="false" selected="true" text="Show Whole/Half Step Form">
+            <CheckBox id="showWH" fx:id="cbWH" mnemonicParsing="false" selected="true" text="Show Whole/Half Step Form">
                <VBox.margin>
                   <Insets bottom="20.0" left="30.0" />
                </VBox.margin>
             </CheckBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" prefWidth="64.0" text="OK" />
-                  <Button mnemonicParsing="false" text="Cancel" />
+                  <Button mnemonicParsing="false" onAction="#handleOK" prefWidth="64.0" text="OK" />
+                  <Button mnemonicParsing="false" onMouseReleased="#handleCancel" text="Cancel" />
                </children>
                <VBox.margin>
                   <Insets top="25.0" />

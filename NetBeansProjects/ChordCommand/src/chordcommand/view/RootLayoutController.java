@@ -10,6 +10,8 @@ import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -20,8 +22,6 @@ public class RootLayoutController {
     private GridPane frameControlsGP;
     @FXML
     private HBox centerPane;
-    @FXML
-    private HBox holdHelp;
     @FXML
     private ListView<Chord> recentChords;
     private ObservableList<Chord> chordList = FXCollections.observableArrayList();
@@ -49,7 +49,7 @@ public class RootLayoutController {
     
     public void setGridWidth(ReadOnlyDoubleProperty w)
     {
-        frameControlsGP.prefWidthProperty().bind(w);
+        frameControlsGP.prefWidthProperty().bind(w.subtract(40));
     }
     
     /**
@@ -69,5 +69,32 @@ public class RootLayoutController {
         main.showHelpView();
     }
     
+    /**
+     * Handle Preferences option in the menu
+     */
+    public void handlePrefItem()
+    {
+        main.showPrefView();
+    }
+    
+    /**
+     * Handle About item in the menu
+     */
+    public void handleAboutItem()
+    {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("About Chord Command");
+        alert.setHeaderText("Chord Command");
+        alert.setContentText("Version 1.0.0\nCharlotte Hirschberger, 2017\nAll rights reserved.");
+        alert.showAndWait();
+    }
+    
+    /**
+     * Handle Close option in the menu
+     */
+    public void handleCloseItem()
+    {
+        main.causeExit();
+    }
     
 }

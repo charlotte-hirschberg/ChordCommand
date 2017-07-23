@@ -11,6 +11,7 @@ package chordcommand;
 //Imports
 import chordcommand.view.ChordViewController;
 import chordcommand.view.HelpViewController;
+import chordcommand.view.PrefDialogController;
 import chordcommand.view.RootLayoutController;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -25,6 +26,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 //Begin Class ChordCommand
@@ -38,6 +40,7 @@ public class ChordCommand extends Application {
     private final static String PREF_FILE = "userprefs.properties";
     private PropertiesUtil pu;
     private Properties prefs;
+    private Scene scene;
 
     @Override
     public void start(Stage primaryStage) 
@@ -72,6 +75,11 @@ public class ChordCommand extends Application {
         }); 
     }
     
+    public Scene getScene()
+    {
+        return scene;
+    }
+    
     /**
      * Get a user's preferences and create a Properties object with them
      */
@@ -90,6 +98,16 @@ public class ChordCommand extends Application {
     public void setSinglePref(String key, String value)
     {
         prefs.setProperty(key, value);
+    }
+    
+    public String getSinglePref(String key)
+    {
+        return prefs.getProperty(key);
+    }
+    
+    public double getStageWidth()
+    {
+        return primaryStage.getWidth();
     }
     
     /**
@@ -155,7 +173,7 @@ public class ChordCommand extends Application {
             rootLayout = (ScrollPane) loader.load();
 
             // Show the scene containing the root layout.
-            Scene scene = new Scene(rootLayout);
+            scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
             primaryStage.setMaximized(true);
@@ -183,7 +201,7 @@ public class ChordCommand extends Application {
                 Stage helpStage = new Stage();
                 helpStage.setTitle("Quick Start Guide");
                 helpStage.initOwner(primaryStage);
-                Scene scene = new Scene(helpView);
+                Scene scene2 = new Scene(helpView);
                 helpStage.setScene(scene);
                 helpStage.show();            
 
@@ -203,15 +221,44 @@ public class ChordCommand extends Application {
             // Load chord controls & output layout
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(ChordCommand.class.getResource("view/ChordView.fxml"));
-            AnchorPane chordView = (AnchorPane) loader.load();
+            VBox chordView = (VBox)loader.load();
             
             centerPane.getChildren().add(chordView);
             
             ChordViewController ctrller = loader.getController();
             ctrller.setMainApp(this);
-            ctrller.setCombos(instrComboData, pitchComboData);
+            ctrller.setCombo(instrComboData, "Flute");
             
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void showPrefView()
+    {
+        try 
+        {
+            // Load chord controls & output layout
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(ChordCommand.class.getResource("view/PrefDialog.fxml"));
+            AnchorPane prefDialog = (AnchorPane)loader.load();
+            
+            // Create the dialog Stage.
+            Stage prefStage = new Stage();
+            prefStage.setTitle("Set Preferences");
+            prefStage.initOwner(primaryStage);
+            Scene prefScene = new Scene(prefDialog);
+            prefStage.setScene(prefScene);
+            prefStage.show();
+            
+            PrefDialogController ctrller = loader.getController();
+            ctrller.setMainApp(this);
+            ctrller.setHelpStage(prefStage);
+            ctrller.initCBValues();
+        } 
+        
+        catch (IOException e) 
+        {
             e.printStackTrace();
         }
     }
@@ -222,6 +269,11 @@ public class ChordCommand extends Application {
      */
     public Stage getPrimaryStage() {
         return primaryStage;
+    }
+    
+    public void causeExit()
+    {
+        primaryStage.close();
     }
 
     public static void main(String[] args) {

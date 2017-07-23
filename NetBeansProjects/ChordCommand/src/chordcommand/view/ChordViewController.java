@@ -9,23 +9,25 @@ import chordcommand.ChordCommand;
 import chordcommand.ChordUtil;
 import chordcommand.Chord;
 import chordcommand.MajorKey;
+import chordcommand.PianoMap;
 import chordcommand.Scale;
 import java.sql.SQLException;
 import java.text.Normalizer;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.RadioButton;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 /**
  *
@@ -34,12 +36,7 @@ import javafx.scene.input.MouseEvent;
 public class ChordViewController {
 
     @FXML
-    private ToggleGroup pitchRBs;
-    @FXML
     private TextField symbolTF;
-    @FXML
-    private ComboBox<String> pitchCombo;
-    private ObservableList<String> pitchComboData = FXCollections.observableArrayList();
     @FXML
     private ComboBox<String> instrCombo;
     private ObservableList<String> instrComboData = FXCollections.observableArrayList();
@@ -47,6 +44,8 @@ public class ChordViewController {
     private TextArea chordTA;
     @FXML
     private TreeView scaleTree;
+    @FXML
+    private Pane pianoPane;
     
     private ChordCommand main;
     private ChordUtil cu;
@@ -58,31 +57,12 @@ public class ChordViewController {
     @FXML
     private void initialize() 
     {
-        pitchRBs.selectedToggleProperty().addListener(
-            (ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) -> 
-            {
-                if (pitchRBs.getSelectedToggle() != null) 
-                {
-                    RadioButton pitch = (RadioButton)pitchRBs.getSelectedToggle(); // Cast object to radio button
-                    String chosenPitch = pitch.getText();
-                    String currText = symbolTF.getText();
-                    
-                    if(!"".equals(currText))
-                        symbolTF.setText(chosenPitch + currText.substring(1));
-                    else
-                        symbolTF.setText(chosenPitch);
-                }    
-            }
-        );
     }
 
-    public void setCombos(ObservableList<String> data1, ObservableList<String> data2)
+    public void setCombo(ObservableList<String> data1, String title)
     {
         instrCombo.setItems(data1);
-        pitchCombo.setItems(data2);
-        
-        instrCombo.setValue("Flute");
-        pitchCombo.setValue("C");
+        instrCombo.setValue(title);
     }
     
         /**
@@ -136,6 +116,8 @@ public class ChordViewController {
                         
                         cu.buildScales(chord1);
                         showScaleDetails(chord1);
+                        
+                        showPiano(chord1);
                     }
                 }
                 else
@@ -196,6 +178,46 @@ public class ChordViewController {
             scaleTree.setRoot(root);
             scaleTree.setShowRoot(false);
         }
+    }
+    
+
+    /**
+     * Use the chord pitches to display red circles and pitch names to
+     * indicate the keys that compose a given chord on the piano
+     * @param chord1 
+     */
+    private void showPiano(Chord chord1)
+    {
+        PianoMap pKeys = new PianoMap();
+        String[] pitches = chord1.getStrPitches().split(",");
+        int prevId = 0;
+        int id;
         
+        for(String p : pitches)
+        {
+            id = pKeys.getKeyID(p);
+            
+            // Account for octave
+            if(id < prevId)
+                id += 12;
+            
+            prevId = id;
+
+            // Get the Rectangle with this ID
+            Rectangle rect = (Rectangle)main.getScene().lookup("#" + id);
+            double x = rect.getLayoutX();
+            double y = rect.getLayoutY();
+            double hCenter = rect.getWidth()/2 + x;
+            double vCoord = y + rect.getHeight() - 40;
+            
+            Label pitch = new Label(p);
+            pitch.setLayoutX(hCenter - 6);
+            pitch.setLayoutY(vCoord + 15);
+            
+            Circle circ = new Circle(hCenter, vCoord, 10);
+            circ.setFill(Color.RED);
+            pianoPane.getChildren().add(circ);
+            pianoPane.getChildren().add(pitch);
+        }
     }
 }

@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.Normalizer;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -32,7 +33,7 @@ public class ChordUtil
      * @throws java.sql.SQLException
      */
     public ChordUtil() throws SQLException
-    {
+    {        
         am = new AccidentalMap();
         try (BasicDataSource source = DBUtil.getDataSource())
         { 

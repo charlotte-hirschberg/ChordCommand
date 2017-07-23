@@ -18,11 +18,11 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chordcommand.view.RootLayoutController">
+<ScrollPane hbarPolicy="NEVER" minWidth="1050.0" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chordcommand.view.RootLayoutController">
    <content>
             <GridPane fx:id="frameControlsGP" layoutX="211.0" layoutY="190.0">
                <children>
-                  <HBox fx:id="holdHelp" alignment="CENTER_RIGHT" prefHeight="82.0" prefWidth="68.0" style="-fx-border-color: black;" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0">
+                  <HBox fx:id="holdHelp" alignment="CENTER_RIGHT" prefHeight="82.0" prefWidth="68.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0">
                      <children>
                         <StackPane prefHeight="70.0" prefWidth="72.0">
                            <children>
@@ -35,35 +35,36 @@
                            </children>
                         </StackPane>
                      </children>
-                     <padding>
-                        <Insets right="25.0" />
-                     </padding>
                   </HBox>
                   <ImageView fitHeight="89.0" fitWidth="485.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="0">
                      <image>
                         <Image url="@ChordCommandLogo%20(1).png" />
                      </image>
                   </ImageView>
-                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                              <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <children>
+                  <VBox fillWidth="false" prefHeight="85.0" prefWidth="157.0">
                      <children>
                         <Label text="Recent Chords">
                            <font>
-                              <Font size="24.0" />
+                              <Font size="22.0" />
                            </font>
-                           <VBox.margin>
-                              <Insets top="35.0" />
-                           </VBox.margin>
                         </Label>
-                        <ListView opacity="0.0" />
+                        <ListView prefHeight="53.0" prefWidth="145.0" />
                      </children>
                   </VBox>
-                  <MenuBar style="-fx-background-color: derive(ececec,26.4%);" GridPane.columnIndex="0" GridPane.hgrow="NEVER" GridPane.rowIndex="0">
+               </children>
+               <padding>
+                  <Insets top="15.0" />
+               </padding>
+            </HBox>
+                  <MenuBar fx:id="menuBar" style="-fx-background-color: derive(ececec,26.4%);" GridPane.columnIndex="0" GridPane.hgrow="NEVER" GridPane.rowIndex="0">
                     <menus>
                       <Menu mnemonicParsing="false">
                         <items>
-                              <MenuItem mnemonicParsing="false" text="Preferences" />
-                              <MenuItem mnemonicParsing="false" text="About" />
-                          <MenuItem mnemonicParsing="false" text="Close" />
+                              <MenuItem mnemonicParsing="false" onAction="#handlePrefItem" text="Preferences" />
+                              <MenuItem mnemonicParsing="false" onAction="#handleAboutItem" text="About" />
+                          <MenuItem mnemonicParsing="false" onAction="#handleCloseItem" text="Close" />
                         </items>
                            <graphic>
                               <ImageView fitHeight="45.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
@@ -75,17 +76,19 @@
                       </Menu>
                     </menus>
                   </MenuBar>
-            <HBox fx:id="centerPane" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                <children>
-                </children>
+
+            <HBox fx:id="centerPane" GridPane.columnIndex="1" GridPane.rowIndex="2">
+              <children>  
+              </children>
             </HBox>
                </children>
          <columnConstraints>
-            <ColumnConstraints />
-            <ColumnConstraints />
+            <ColumnConstraints prefWidth="125.0" />
+            <ColumnConstraints prefWidth="1000.0" />
             <ColumnConstraints />
          </columnConstraints>
          <rowConstraints>
+            <RowConstraints />
             <RowConstraints />
             <RowConstraints />
          </rowConstraints>
