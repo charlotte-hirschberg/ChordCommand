@@ -25,4 +25,9 @@ public class Scale extends MusicStructure {
         super.setDisplayName(name);
         super.setMajKey(mKey);
     }
+    
+    public String getStrWH()
+    {
+        return whForm;
+    }
 }
