@@ -161,7 +161,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <ComboBox prefHeight="31.0" prefWidth="94.0" promptText="Cb" />
+                  <ComboBox fx:id="keyCombo" prefHeight="31.0" prefWidth="94.0" promptText="Cb" />
                </children>
                <GridPane.margin>
                   <Insets top="5.0" />
@@ -184,7 +184,7 @@
                   <Insets right="10.0" />
                </HBox.margin>
             </TextField>
-            <Button mnemonicParsing="false" onMouseReleased="#handleSubmit" prefHeight="39.0" prefWidth="101.0" text="Submit">
+            <Button mnemonicParsing="false" onMouseClicked="#handleSubmit" prefHeight="39.0" prefWidth="101.0" text="Submit">
                <font>
                   <Font size="18.0" />
                </font>
@@ -213,7 +213,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label text="Scale(s)" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Label fx:id="scalesLbl" text="Scale(s)" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -227,9 +227,9 @@
                         <Insets left="5.0" />
                      </GridPane.margin>
                   </TreeView>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: 1px solid black;">
                      <children>
-                        <Label text="You entered:">
+                        <Label fx:id="entryLbl" text="Your output will appear below">
                            <font>
                               <Font name="System Bold" size="22.0" />
                            </font>
@@ -246,7 +246,7 @@
                   </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                <children>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="665.0">
+                  <HBox prefHeight="51.0" prefWidth="665.0">
                      <children>
                         <Label text="Transpose for: ">
                            <font>

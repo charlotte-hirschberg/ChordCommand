@@ -72,31 +72,6 @@ public class ChordUtil
     }
     
     /**
-     * Extract 0-2 characters that denote a key from the string, depending on what the user has entered.
-     * @param entry
-     * @return 
-     */
-    public String extractKey(String entry)
-    {
-        Pattern rgx1 = Pattern.compile("^[A-G].*");
-        
-        // Starts with A,B,C,D,E,F,or G
-        if(rgx1.matcher(entry).matches())
-        {
-            Pattern rgx2 = Pattern.compile("^[A-G][b♭].*");
-            
-            // Letter followed by flat symbol
-            if(rgx2.matcher(entry).matches())
-               return entry.substring(0, 2);            // return 2 char
-            else
-                return String.valueOf(entry.charAt(0)); // return single letter
-        }
-        else
-            return null;
-    }
-    
-    /**
-     * TO DO: Switch flat symbol to b in key string?
      * Retrieve a comma-separated MajorSuffixes string from database and use it
      * to build a new MajorKey.
      * @param key

@@ -36,7 +36,7 @@ public class ChordCommand extends Application {
     private HBox centerPane;
     private DBUtil dbUtil;
     private ObservableList<String> instrComboData = FXCollections.observableArrayList();
-    private ObservableList<String> pitchComboData = FXCollections.observableArrayList();
+    private ObservableList<String> keyComboData = FXCollections.observableArrayList();
     private final static String PREF_FILE = "userprefs.properties";
     private PropertiesUtil pu;
     private Properties prefs;
@@ -50,7 +50,7 @@ public class ChordCommand extends Application {
         
         initDB();
         initRootLayout();
-        setCombos();
+        setComboData();
         getPrefs();
         showChordView();
         
@@ -105,6 +105,11 @@ public class ChordCommand extends Application {
         return prefs.getProperty(key);
     }
     
+    public boolean getBooleanProp(String key)
+    {
+        return Boolean.parseBoolean(getSinglePref(key));
+    }
+    
     public double getStageWidth()
     {
         return primaryStage.getWidth();
@@ -113,16 +118,15 @@ public class ChordCommand extends Application {
     /**
      * Retrieve data from DB and load it in lists for use in ComboBoxes
      */
-    public void setCombos()
+    public void setComboData()
     {
         String query1 = "SELECT Instrument FROM TransposingKeyLU";
-        String query2 = "SELECT MajorKeyName FROM MajorKeyLU as mk JOIN TransposingKeyLU as tk"
-                    + " ON mk.MajorKeyID = tk.MajorKeyID GROUP BY MajorKeyName";
+        String query2 = "SELECT MajorKeyName FROM MajorKeyLU ";
         
         try {
 
             instrComboData = dbUtil.toList(query1, "Instrument");
-            pitchComboData = dbUtil.toList(query2, "MajorKeyName");
+            keyComboData = dbUtil.toList(query2, "MajorKeyName");
         } 
         catch (SQLException ex) {
             Logger.getLogger(ChordCommand.class.getName()).log(Level.SEVERE, null, ex);
@@ -133,9 +137,9 @@ public class ChordCommand extends Application {
      * Returns the transposing keys as an observable list of Strings
      * @return 
      */
-    public ObservableList<String> getPitchComboData() 
+    public ObservableList<String> getKeyComboData() 
     {
-        return pitchComboData;
+        return keyComboData;
     }
         
     /**
@@ -227,7 +231,8 @@ public class ChordCommand extends Application {
             
             ChordViewController ctrller = loader.getController();
             ctrller.setMainApp(this);
-            ctrller.setCombo(instrComboData, "Flute");
+            ctrller.setCombos();
+            ctrller.initOutputArea();
             
         } catch (IOException e) {
             e.printStackTrace();
