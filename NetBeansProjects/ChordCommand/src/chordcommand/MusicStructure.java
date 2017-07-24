@@ -72,8 +72,6 @@ public class MusicStructure {
             // Get the index of the corresponding pitch name
             int iMod = (i - 1) % 7;
             
-            
-            
             /*Add two suffixes and use the sum to determine the accidental
             that occurs when this structure's tonality is applied to the 
             major key*/
@@ -84,19 +82,25 @@ public class MusicStructure {
             String genAccidental = am.getAccidental(genAlter);
             String accidental = am.getAccidental(alter);
             
+            String nextNum = padRight(genAccidental + String.valueOf(i), 5);
+            
             // Build numeric structure with accidental + number, i.e. #3
-            strNums += genAccidental;
-            strNums += String.valueOf(i) + ",";
+            strNums += nextNum;
             
             
             /*Build pitch structure with letter + accidental, i.e. Cb*/  
             // Retrieve the pitch name
             char pitchName = mKey.getPitch(iMod);
             
-            // Append the pitch name and accidental
-            strPitches += String.valueOf(pitchName) + accidental + ",";
+            String nextPitch = padRight(pitchName + accidental, 5);
+            strPitches += nextPitch;
             ctNotes++;
         }
+    }
+    
+    public String padRight(String s, int columns)
+    {
+        return String.format("%1$-"+columns+ "s", s);
     }
     
     public String getStrNums()
