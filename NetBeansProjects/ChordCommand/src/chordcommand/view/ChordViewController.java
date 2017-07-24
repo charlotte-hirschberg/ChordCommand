@@ -13,7 +13,6 @@ import chordcommand.PianoMap;
 import chordcommand.Scale;
 import java.sql.SQLException;
 import java.text.Normalizer;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -39,7 +38,12 @@ public class ChordViewController {
     private TextField symbolTF;
     @FXML
     private ComboBox<String> instrCombo;
-    private ObservableList<String> instrComboData = FXCollections.observableArrayList();
+    @FXML
+    private ComboBox<String> keyCombo;
+    @FXML
+    private Label entryLbl;
+    @FXML
+    private Label scalesLbl;
     @FXML
     private TextArea chordTA;
     @FXML
@@ -59,10 +63,16 @@ public class ChordViewController {
     {
     }
 
-    public void setCombo(ObservableList<String> data1, String title)
+    public void setCombos()
     {
-        instrCombo.setItems(data1);
-        instrCombo.setValue(title);
+         setCombo(instrCombo, "Flute", main.getInstrComboData());
+         setCombo(keyCombo, "C", main.getKeyComboData());
+    }
+    
+    private void setCombo(ComboBox combo, String title, ObservableList<String> data)
+    {
+        combo.setItems(data);
+        combo.setValue(title);
     }
     
         /**
@@ -72,6 +82,16 @@ public class ChordViewController {
     public void setMainApp(ChordCommand main)
     {
         this.main = main;
+    }
+    
+    public void initOutputArea()
+    {
+        // If showAnyScale = false, hide scaleTree and its label
+        hideScales();
+        
+        // If pianoPane = false, hide its label
+        if(!main.getBooleanProp("showPiano"))
+            pianoPane.setVisible(false);
     }
     
     @FXML
@@ -89,36 +109,31 @@ public class ChordViewController {
         MajorKey mKey = null;
         Chord chord1;
         
+        
         if(!entry.equals(""))
         {
             try
             {
                 cu = new ChordUtil();
-                if(cu.isValidInput(entry, "^[A-G]?[b♭]?[majsuinbd1-9\\+\\-#°ø♭Δ]{1,12}$", Normalizer.Form.NFD))
+                if(cu.isValidInput(entry, "^[majsuinbd1-9\\+\\-#°ø♭Δ]{1,12}$", Normalizer.Form.NFD))
                 {
-                    String key = cu.extractKey(entry);
-                    if(key != null)
-                    {
-                        mKey = cu.buildKey(key);
-                        if(key.length() == 2)
-                            entry = entry.substring(2);
-                        else
-                            entry = entry.substring(1);
-                    }
-                    // Regardless, proceed with building chord
+                    String key = keyCombo.getValue();
+                    
+                    mKey = cu.buildKey(key);
+                    
+                    // Build the chord
                     entry = cu.formatSymbol(entry);
                     chord1 = cu.buildChord(entry, mKey);
                     
                     if(chord1 != null)
                     {
-                        chord1.setDisplayName(origEntry);
+                        chord1.setDisplayName(key + origEntry);
                         showChordDetails(chord1);
                         
                         cu.buildScales(chord1);
                         showScaleDetails(chord1);
-                        
-                        showPiano(chord1);
                     }
+                    symbolTF.clear();
                 }
                 else
                 {
@@ -142,21 +157,52 @@ public class ChordViewController {
     {
         if(chord != null)
         {
-            chordTA.setText("Numerical:\t");
-            chordTA.appendText(chord.getStrNums());
+            entryLbl.setText("You entered: " + chord.getDisplayName());
             chordTA.appendText("\nPitches:\t\t");
             chordTA.appendText(chord.getStrPitches());
+            
+            if(main.getBooleanProp("showChordNum"))
+            {
+                chordTA.appendText("\nNumeric:\t\t");
+                chordTA.appendText(chord.getStrNums());
+            }
+            if(main.getBooleanProp("showPiano"))
+            {
+                showPiano(chord);
+            }
+            else
+            {
+                pianoPane.setVisible(false);
+            }
         }
     }
     
+    private boolean hideScales()
+    {
+        boolean b = main.getBooleanProp("showAnyScale");
+        if(!b)
+        {
+            scaleTree.setVisible(false);
+            scalesLbl.setVisible(false);
+        }
+        return b;
+    }
     
     private void showScaleDetails(Chord chord)
     {
-        if(chord != null)
+        if(hideScales())
         {
+            if(chord != null)
+        {
+            scaleTree.setVisible(true);
+            scalesLbl.setVisible(true);
             // Create an empty root that will be hidden
             TreeItem<String> root = new TreeItem<>("");
             root.setExpanded(true);
+            
+            boolean showScaleNum = main.getBooleanProp("showScaleNum");
+            boolean showWHForm = main.getBooleanProp("showWHForm");
+            
             
             /*Create root's children. Each child is a scale name, which in
             turn has a string of pitches and a string of numbers/accidentals
@@ -166,20 +212,25 @@ public class ChordViewController {
             {
                 TreeItem<String> name = new TreeItem<>(sc.getDisplayName());
                 
-                    TreeItem<String> pitches = 
-                        new TreeItem<>("Pitches:\t\t" + sc.getStrPitches());
-                    TreeItem<String> nums =
-                        new TreeItem<>("Numerical:\t" + sc.getStrNums());
-                name.getChildren().add(pitches);
-                name.getChildren().add(nums);
-                
+                    addNode(true, sc.getStrPitches(), "Pitches:\t\t", name);
+                    addNode(showScaleNum, sc.getStrNums(), "Numerical:\t\t", name);
+                    addNode(showWHForm, sc.getStrWH(), "Whole/Half:\t", name);
                 root.getChildren().add(name);
             }
             scaleTree.setRoot(root);
             scaleTree.setShowRoot(false);
         }
+        }
     }
     
+    public void addNode(boolean doShow, String val, String lbl, TreeItem<String> parent)
+    {
+        if(doShow)
+        {
+            TreeItem<String> child = new TreeItem<>(lbl + val);
+            parent.getChildren().add(child);
+        }
+    }
 
     /**
      * Use the chord pitches to display red circles and pitch names to
@@ -188,8 +239,10 @@ public class ChordViewController {
      */
     private void showPiano(Chord chord1)
     {
+        pianoPane.setVisible(true); // Set visible if not already
+        
         PianoMap pKeys = new PianoMap();
-        String[] pitches = chord1.getStrPitches().split(",");
+        String[] pitches = chord1.getStrPitches().split("\\s+");
         int prevId = 0;
         int id;
         
