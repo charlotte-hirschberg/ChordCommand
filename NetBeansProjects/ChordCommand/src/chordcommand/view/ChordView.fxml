@@ -179,6 +179,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
+            <TextField fx:id="keyTF" alignment="CENTER" prefHeight="31.0" prefWidth="53.0" text="C" />
             <TextField fx:id="symbolTF" prefHeight="31.0" prefWidth="759.0">
                <HBox.margin>
                   <Insets right="10.0" />
@@ -194,7 +195,7 @@
             <Insets top="10.0" />
          </VBox.margin>
       </HBox>
-            <GridPane hgap="15.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="256.0" prefWidth="965.0" VBox.vgrow="ALWAYS">
+            <GridPane hgap="15.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="965.0" VBox.vgrow="ALWAYS">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="342.0" minWidth="10.0" percentWidth="50.0" prefWidth="282.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="512.0" minWidth="10.0" prefWidth="512.0" />
@@ -203,6 +204,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <VBox.margin>
                   <Insets top="60.0" />
@@ -227,7 +229,7 @@
                         <Insets left="5.0" />
                      </GridPane.margin>
                   </TreeView>
-                  <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: 1px solid black;">
+                  <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Label fx:id="entryLbl" text="Your output will appear below">
                            <font>
@@ -248,7 +250,7 @@
                <children>
                   <HBox prefHeight="51.0" prefWidth="665.0">
                      <children>
-                        <Label text="Transpose for: ">
+                        <Label fx:id="instrComboLbl" text="Transpose for: ">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -262,30 +264,42 @@
             </GridPane>
             <Pane fx:id="pianoPane">
                <children>
-                  <Rectangle id="1" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="260.0" stroke="BLACK" strokeType="INSIDE" width="57.0" />
-                  <Rectangle id="5" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="260.0" layoutX="114.0" stroke="BLACK" strokeType="INSIDE" width="57.0" />
-                  <Rectangle id="8" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="260.0" layoutX="228.0" stroke="BLACK" strokeType="INSIDE" width="57.0" />
-                  <Rectangle id="10" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="260.0" layoutX="285.0" stroke="BLACK" strokeType="INSIDE" width="57.0" />
-                  <Rectangle id="6" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="260.0" layoutX="171.0" stroke="BLACK" strokeType="INSIDE" width="57.0" />
-                  <Rectangle id="3" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="260.0" layoutX="57.0" stroke="BLACK" strokeType="INSIDE" width="57.0" />
-                  <Rectangle id="12" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="260.0" layoutX="342.0" stroke="BLACK" strokeType="INSIDE" width="57.0" />
-                  <Rectangle id="13" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="260.0" layoutX="399.0" stroke="BLACK" strokeType="INSIDE" width="57.0" />
-                  <Rectangle id="15" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="260.0" layoutX="456.0" stroke="BLACK" strokeType="INSIDE" width="57.0" />
-                  <Rectangle id="17" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="260.0" layoutX="513.0" stroke="BLACK" strokeType="INSIDE" width="57.0" />
-                  <Rectangle id="18" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="260.0" layoutX="570.0" stroke="BLACK" strokeType="INSIDE" width="57.0" />
-                  <Rectangle id="20" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="260.0" layoutX="627.0" stroke="BLACK" strokeType="INSIDE" width="57.0" />
-                  <Rectangle id="22" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="260.0" layoutX="684.0" stroke="BLACK" strokeType="INSIDE" width="57.0" />
-                  <Rectangle id="24" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="260.0" layoutX="741.0" stroke="BLACK" strokeType="INSIDE" width="57.0" />
-                  <Rectangle id="2" arcHeight="5.0" arcWidth="5.0" height="150.0" layoutX="40.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
-                  <Rectangle id="4" arcHeight="5.0" arcWidth="5.0" height="150.0" layoutX="96.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
-                  <Rectangle id="7" arcHeight="5.0" arcWidth="5.0" height="150.0" layoutX="210.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
-                  <Rectangle id="9" arcHeight="5.0" arcWidth="5.0" height="150.0" layoutX="268.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
-                  <Rectangle id="11" arcHeight="5.0" arcWidth="5.0" height="150.0" layoutX="325.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
-                  <Rectangle id="14" arcHeight="5.0" arcWidth="5.0" height="150.0" layoutX="438.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
-                  <Rectangle id="16" arcHeight="5.0" arcWidth="5.0" height="150.0" layoutX="495.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
-                  <Rectangle id="19" arcHeight="5.0" arcWidth="5.0" height="150.0" layoutX="609.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
-                  <Rectangle id="21" arcHeight="5.0" arcWidth="5.0" height="150.0" layoutX="666.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
-                  <Rectangle id="23" arcHeight="5.0" arcWidth="5.0" height="150.0" layoutX="723.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                  <Rectangle id="1" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="206.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
+                  <Rectangle id="5" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="206.0" layoutX="90.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
+                  <Rectangle id="8" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="206.0" layoutX="180.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
+                  <Rectangle id="10" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="206.0" layoutX="225.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
+                  <Rectangle id="6" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="206.0" layoutX="135.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
+                  <Rectangle id="3" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="206.0" layoutX="45.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
+                  <Rectangle id="12" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="206.0" layoutX="270.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
+                  <Rectangle id="13" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="206.0" layoutX="315.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
+                  <Rectangle id="15" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="206.0" layoutX="360.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
+                  <Rectangle id="17" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="206.0" layoutX="405.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
+                  <Rectangle id="18" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="206.0" layoutX="450.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
+                  <Rectangle id="20" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="206.0" layoutX="495.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
+                  <Rectangle id="22" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="206.0" layoutX="540.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
+                  <Rectangle id="24" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="206.0" layoutX="585.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
+                  <Rectangle id="2" arcHeight="5.0" arcWidth="5.0" height="119.0" layoutX="30.0" stroke="BLACK" strokeType="INSIDE" width="27.0" />
+                  <Rectangle id="4" arcHeight="5.0" arcWidth="5.0" height="119.0" layoutX="76.0" stroke="BLACK" strokeType="INSIDE" width="27.0" />
+                  <Rectangle id="7" arcHeight="5.0" arcWidth="5.0" height="119.0" layoutX="167.0" stroke="BLACK" strokeType="INSIDE" width="27.0" />
+                  <Rectangle id="9" arcHeight="5.0" arcWidth="5.0" height="119.0" layoutX="212.0" stroke="BLACK" strokeType="INSIDE" width="27.0" />
+                  <Rectangle id="11" arcHeight="5.0" arcWidth="5.0" height="119.0" layoutX="257.0" stroke="BLACK" strokeType="INSIDE" width="27.0" />
+                  <Rectangle id="14" arcHeight="5.0" arcWidth="5.0" height="119.0" layoutX="347.0" stroke="BLACK" strokeType="INSIDE" width="27.0" />
+                  <Rectangle id="16" arcHeight="5.0" arcWidth="5.0" height="119.0" layoutX="392.0" stroke="BLACK" strokeType="INSIDE" width="27.0" />
+                  <Rectangle id="19" arcHeight="5.0" arcWidth="5.0" height="119.0" layoutX="482.0" stroke="BLACK" strokeType="INSIDE" width="27.0" />
+            <Rectangle id="36" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="206.0" layoutX="900.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
+            <Rectangle id="25" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="206.0" layoutX="630.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
+            <Rectangle id="27" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="206.0" layoutX="675.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
+            <Rectangle id="29" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="206.0" layoutX="720.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
+            <Rectangle id="30" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="206.0" layoutX="765.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
+            <Rectangle id="32" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="206.0" layoutX="810.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
+            <Rectangle id="34" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="206.0" layoutX="855.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
+                  <Rectangle id="23" arcHeight="5.0" arcWidth="5.0" height="119.0" layoutX="572.0" stroke="BLACK" strokeType="INSIDE" width="27.0" />
+                  <Rectangle id="21" arcHeight="5.0" arcWidth="5.0" height="119.0" layoutX="527.0" stroke="BLACK" strokeType="INSIDE" width="27.0" />
+            <Rectangle id="26" arcHeight="5.0" arcWidth="5.0" height="119.0" layoutX="662.0" stroke="BLACK" strokeType="INSIDE" width="27.0" />
+            <Rectangle id="28" arcHeight="5.0" arcWidth="5.0" height="119.0" layoutX="707.0" stroke="BLACK" strokeType="INSIDE" width="27.0" />
+            <Rectangle id="31" arcHeight="5.0" arcWidth="5.0" height="119.0" layoutX="797.0" stroke="BLACK" strokeType="INSIDE" width="27.0" />
+            <Rectangle id="35" arcHeight="5.0" arcWidth="5.0" height="119.0" layoutX="887.0" stroke="BLACK" strokeType="INSIDE" width="27.0" />
+            <Rectangle id="33" arcHeight="5.0" arcWidth="5.0" height="119.0" layoutX="842.0" stroke="BLACK" strokeType="INSIDE" width="27.0" />
                </children>
                <VBox.margin>
                   <Insets top="20.0" />

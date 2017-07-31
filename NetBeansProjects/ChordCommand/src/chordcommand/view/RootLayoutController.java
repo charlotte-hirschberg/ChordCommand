@@ -4,7 +4,7 @@
 
 package chordcommand.view;
 
-import chordcommand.Chord;
+import model.Chord;
 import chordcommand.ChordCommand;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.FXCollections;
@@ -12,9 +12,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.util.Callback;
 
 public class RootLayoutController {
 
@@ -24,10 +26,10 @@ public class RootLayoutController {
     private HBox centerPane;
     @FXML
     private ListView<Chord> recentChords;
-    private ObservableList<Chord> chordList = FXCollections.observableArrayList();
+    private ObservableList<Chord> chordData = FXCollections.observableArrayList();
     
     private ChordCommand main;
-
+    private ChordViewController chordCtrl;
 
     /**
      * Initializes the controller class. This method is automatically called
@@ -36,6 +38,31 @@ public class RootLayoutController {
     @FXML
     private void initialize() 
     {
+        recentChords.setItems(chordData);    
+        recentChords.setCellFactory(new Callback<ListView<Chord>, ListCell<Chord>>() 
+        {
+            @Override 
+            public ListCell<Chord> call(ListView<Chord> list) 
+            {
+                return new ListCell<Chord>()
+                {
+                    @Override
+                    protected void updateItem(Chord item, boolean empty) 
+                    {
+                        super.updateItem(item, empty);
+
+                        if (item == null) 
+                            setText("");
+                        else 
+                            setText(item.getDisplayName());
+                    }
+                };
+            }
+        });
+        
+        recentChords.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            chordCtrl.buildOutput(newValue);
+        });
     }
     
     /**
@@ -45,6 +72,18 @@ public class RootLayoutController {
     public void setMainApp(ChordCommand main)
     {
         this.main = main;
+    }
+    
+    public void setChordCtrl(ChordViewController ctrller)
+    {
+        chordCtrl = ctrller;
+    }
+    
+    public void setRecentChord(Chord chord)
+    {
+        if(chordData.size() > 5)
+            chordData.remove(0);
+        chordData.add(chord);
     }
     
     public void setGridWidth(ReadOnlyDoubleProperty w)

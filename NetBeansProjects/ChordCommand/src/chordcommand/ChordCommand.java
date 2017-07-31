@@ -37,10 +37,12 @@ public class ChordCommand extends Application {
     private DBUtil dbUtil;
     private ObservableList<String> instrComboData = FXCollections.observableArrayList();
     private ObservableList<String> keyComboData = FXCollections.observableArrayList();
+
     private final static String PREF_FILE = "userprefs.properties";
     private PropertiesUtil pu;
     private Properties prefs;
     private Scene scene;
+    RootLayoutController rootCtrl;
 
     @Override
     public void start(Stage primaryStage) 
@@ -182,10 +184,10 @@ public class ChordCommand extends Application {
             primaryStage.show();
             primaryStage.setMaximized(true);
             
-            RootLayoutController ctrller = loader.getController();
-            centerPane = ctrller.getCenterPane();
-            ctrller.setMainApp(this);
-            ctrller.setGridWidth(primaryStage.widthProperty());
+            rootCtrl = loader.getController();
+            centerPane = rootCtrl.getCenterPane();
+            rootCtrl.setMainApp(this);
+            rootCtrl.setGridWidth(primaryStage.widthProperty());
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -205,8 +207,8 @@ public class ChordCommand extends Application {
                 Stage helpStage = new Stage();
                 helpStage.setTitle("Quick Start Guide");
                 helpStage.initOwner(primaryStage);
-                Scene scene2 = new Scene(helpView);
-                helpStage.setScene(scene);
+                Scene helpScene = new Scene(helpView);
+                helpStage.setScene(helpScene);
                 helpStage.show();            
 
                 // Set the person into the controller.
@@ -233,6 +235,8 @@ public class ChordCommand extends Application {
             ctrller.setMainApp(this);
             ctrller.setCombos();
             ctrller.initOutputArea();
+            ctrller.setRootCtrl(rootCtrl);
+            rootCtrl.setChordCtrl(ctrller);
             
         } catch (IOException e) {
             e.printStackTrace();

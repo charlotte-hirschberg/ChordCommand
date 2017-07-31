@@ -7,10 +7,10 @@ package chordcommand.view;
 
 import chordcommand.ChordCommand;
 import chordcommand.ChordUtil;
-import chordcommand.Chord;
-import chordcommand.MajorKey;
+import model.Chord;
+import model.MajorKey;
 import chordcommand.PianoMap;
-import chordcommand.Scale;
+import model.Scale;
 import java.sql.SQLException;
 import java.text.Normalizer;
 import javafx.collections.ObservableList;
@@ -24,9 +24,9 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import java.util.ArrayList;
+import javafx.collections.FXCollections;
 
 /**
  *
@@ -34,6 +34,8 @@ import javafx.scene.shape.Rectangle;
  */
 public class ChordViewController {
 
+    @FXML
+    private TextField keyTF;
     @FXML
     private TextField symbolTF;
     @FXML
@@ -44,6 +46,8 @@ public class ChordViewController {
     private Label entryLbl;
     @FXML
     private Label scalesLbl;
+    @FXML 
+    private Label instrComboLbl;
     @FXML
     private TextArea chordTA;
     @FXML
@@ -53,6 +57,10 @@ public class ChordViewController {
     
     private ChordCommand main;
     private ChordUtil cu;
+    private ArrayList<KeyMarker> markers;
+    private ObservableList<Chord> recentChords;
+    
+    private RootLayoutController rootCtrl;
 
     /**
      * Initializes the controller class. This method is automatically called
@@ -61,6 +69,23 @@ public class ChordViewController {
     @FXML
     private void initialize() 
     {
+        recentChords = FXCollections.observableArrayList();
+        instrCombo.setDisable(true);
+        instrComboLbl.setDisable(true);
+        markers = new ArrayList();
+        keyTF.setEditable(false);
+        
+        keyCombo.setOnAction((event) -> 
+        {
+            String selectedKey = keyCombo.getSelectionModel().getSelectedItem();
+            keyTF.setText(selectedKey);
+        });
+        
+        instrCombo.setOnAction((event)->
+        {
+            String selectedInstr = keyCombo.getSelectionModel().getSelectedItem();
+            transpose(selectedInstr);
+        });
     }
 
     public void setCombos()
@@ -84,6 +109,11 @@ public class ChordViewController {
         this.main = main;
     }
     
+    public void setRootCtrl(RootLayoutController ctrller)
+    {
+        rootCtrl = ctrller;
+    }
+    
     public void initOutputArea()
     {
         // If showAnyScale = false, hide scaleTree and its label
@@ -101,14 +131,32 @@ public class ChordViewController {
         symbolTF.appendText(b1.getText());
     }
     
+    private void transpose(String instrument)
+    {
+        try
+        {
+            cu = new ChordUtil();
+            // Get this instrument's key
+            // Get the most recent Chord's MajorKey
+        } 
+        catch (SQLException ex) {
+            System.out.println("SQLException");
+        }
+
+    }
+    
     @FXML
     private void handleSubmit()
     {
         String entry = symbolTF.getText();
+        handleSubmit(entry);
+    }
+    
+    public void handleSubmit(String entry)
+    {
         String origEntry = entry;
         MajorKey mKey = null;
         Chord chord1;
-        
         
         if(!entry.equals(""))
         {
@@ -127,13 +175,12 @@ public class ChordViewController {
                     
                     if(chord1 != null)
                     {
-                        chord1.setDisplayName(key + origEntry);
-                        showChordDetails(chord1);
-                        
+                        chord1.setDisplayName(key + " " + origEntry);
+                        rootCtrl.setRecentChord(chord1);
                         cu.buildScales(chord1);
-                        showScaleDetails(chord1);
+                        
+                        buildOutput(chord1);
                     }
-                    symbolTF.clear();
                 }
                 else
                 {
@@ -153,11 +200,21 @@ public class ChordViewController {
         }
     }
     
+    public void buildOutput(Chord chord)
+    {
+        showChordDetails(chord);
+        showScaleDetails(chord);
+        instrCombo.setDisable(false);
+        instrComboLbl.setDisable(false);
+        symbolTF.clear();
+    }
+    
     private void showChordDetails(Chord chord)
     {
         if(chord != null)
         {
             entryLbl.setText("You entered: " + chord.getDisplayName());
+            chordTA.clear();
             chordTA.appendText("\nPitches:\t\t");
             chordTA.appendText(chord.getStrPitches());
             
@@ -175,6 +232,11 @@ public class ChordViewController {
                 pianoPane.setVisible(false);
             }
         }
+    }
+    
+    private ObservableList<Chord> getRecentChords()
+    {
+        return recentChords;
     }
     
     private boolean hideScales()
@@ -239,38 +301,33 @@ public class ChordViewController {
      */
     private void showPiano(Chord chord1)
     {
+        pianoPane.getChildren().removeAll(markers);
+        markers.clear();
         pianoPane.setVisible(true); // Set visible if not already
         
         PianoMap pKeys = new PianoMap();
         String[] pitches = chord1.getStrPitches().split("\\s+");
         int prevId = 0;
         int id;
+        int octave = 0;
         
         for(String p : pitches)
         {
             id = pKeys.getKeyID(p);
-            
+
             // Account for octave
-            if(id < prevId)
-                id += 12;
+            if((prevId - 12*octave) > id)
+                octave++;
             
+            id += 12*octave;
             prevId = id;
 
             // Get the Rectangle with this ID
             Rectangle rect = (Rectangle)main.getScene().lookup("#" + id);
-            double x = rect.getLayoutX();
-            double y = rect.getLayoutY();
-            double hCenter = rect.getWidth()/2 + x;
-            double vCoord = y + rect.getHeight() - 40;
-            
-            Label pitch = new Label(p);
-            pitch.setLayoutX(hCenter - 6);
-            pitch.setLayoutY(vCoord + 15);
-            
-            Circle circ = new Circle(hCenter, vCoord, 10);
-            circ.setFill(Color.RED);
-            pianoPane.getChildren().add(circ);
-            pianoPane.getChildren().add(pitch);
+
+            KeyMarker markX = new KeyMarker(rect, p);
+            markers.add(markX);
         }
+        pianoPane.getChildren().addAll(markers);
     }
 }
