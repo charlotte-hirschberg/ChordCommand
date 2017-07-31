@@ -101,7 +101,7 @@ public class PrefDialogController
         /*Options 4 & 5 are dependent on Show Scales value*/
         
         /*'Show Scales' is selected, so change its children to reflect their
-        current state, whatever it */
+        current state, whatever it is*/
         if(checks[2].isSelected() == true)
         {
             main.setSinglePref(checks[3].getId(), String.valueOf(checks[3].isSelected()));
