@@ -1,16 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package chordcommand.view;
 
 import chordcommand.ChordCommand;
-import chordcommand.ChordUtil;
-import model.Chord;
-import model.MajorKey;
-import chordcommand.PianoMap;
-import model.Scale;
+import chordcommand.util.ChordUtil;
+import chordcommand.model.Chord;
+import chordcommand.model.MajorKey;
+import chordcommand.model.Scale;
+import chordcommand.util.AlertSetter;
 import java.sql.SQLException;
 import java.text.Normalizer;
 import javafx.collections.ObservableList;
@@ -27,44 +22,55 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
+import javafx.scene.control.Alert;
 
-/**
- *
- * @author Charlotte
+/** 
+ * @Course: SDEV 435 ~ Applied Software Practice
+ * @Author Name: Charlotte Hirschberger
+ * @Assignment ChordCommand
+ * @Date: Jun 12, 2017
+ * @Description: The ChordViewController class interacts with the ChordView.fxml
+ * file, obtaining input from some controls and setting content in others. This
+ * controller is responsible for the buttons, combo box, and text fields where a
+ * chord symbol is entered and the panes where output appears, including for the
+ * piano.
  */
-public class ChordViewController {
+public class ChordViewController extends Controller {
 
     @FXML
-    private TextField keyTF;
+    private TextField keyTF;    // uneditable textfield, filled via ComboBox
     @FXML
     private TextField symbolTF;
     @FXML
-    private ComboBox<String> instrCombo;
+    private ComboBox<String> instrCombo;    // instruments for transposition
     @FXML
     private ComboBox<String> keyCombo;
     @FXML
-    private Label entryLbl;
+    private Label entryLbl;                 // Output heading
     @FXML
-    private Label scalesLbl;
+    private Label scalesLbl;                // Scales pane title
     @FXML 
     private Label instrComboLbl;
     @FXML
-    private TextArea chordTA;
+    private TextArea chordTA;               // Chord output pane
     @FXML
-    private TreeView scaleTree;
+    private TreeView scaleTree;             // Scale output
     @FXML
-    private Pane pianoPane;
+    private Pane pianoPane;                 // Pane of rectangles
+    @FXML
+    private Label errorMsg;
     
-    private ChordCommand main;
     private ChordUtil cu;
-    private ArrayList<KeyMarker> markers;
+    private ArrayList<KeyMarker> markers;   // Circles & labels to mark keys
     private ObservableList<Chord> recentChords;
     
     private RootLayoutController rootCtrl;
+    private AlertSetter alerter;
 
     /**
      * Initializes the controller class. This method is automatically called
-     * after the fxml file has been loaded.
+     * after the fxml file has been loaded. It sets ComboBox handling
+     * and prepares the lists that hold Chords and KeyMarkers.
      */
     @FXML
     private void initialize() 
@@ -74,6 +80,7 @@ public class ChordViewController {
         instrComboLbl.setDisable(true);
         markers = new ArrayList();
         keyTF.setEditable(false);
+        alerter = new AlertSetter();
         
         keyCombo.setOnAction((event) -> 
         {
@@ -88,42 +95,55 @@ public class ChordViewController {
         });
     }
 
+    /**
+     * Calls setCombo to populate ComboBoxes with data from ObservableLists.
+     */
     public void setCombos()
     {
-         setCombo(instrCombo, "Flute", main.getInstrComboData());
-         setCombo(keyCombo, "C", main.getKeyComboData());
+         setCombo(instrCombo, "Flute", ((ChordCommand)mainApp).getInstrComboData());
+         setCombo(keyCombo, "C", ((ChordCommand)mainApp).getKeyComboData());
     }
     
+    /**
+     * Fill a ComboBox with the indicated data and set its title.
+     * @param combo the ComboBox to fill
+     * @param title the ComboBox's visible value
+     * @param data an ObservableList
+     */
     private void setCombo(ComboBox combo, String title, ObservableList<String> data)
     {
         combo.setItems(data);
         combo.setValue(title);
     }
     
-        /**
-     * Called by main, so this class has a reference to it
-     * @param main 
+    /**
+     * Give this controller a reference to RootLayoutController, for purposes of
+     * setting Recent Chords in a ListView.
+     * @param ctrller the RootLayoutController
      */
-    public void setMainApp(ChordCommand main)
-    {
-        this.main = main;
-    }
-    
     public void setRootCtrl(RootLayoutController ctrller)
     {
         rootCtrl = ctrller;
     }
     
+    /**
+     * Hide piano and scale panes if necessary, according to user preferences
+     */
     public void initOutputArea()
     {
         // If showAnyScale = false, hide scaleTree and its label
         hideScales();
         
         // If pianoPane = false, hide its label
-        if(!main.getBooleanProp("showPiano"))
+        if(!((ChordCommand)mainApp).getBooleanProp("showPiano"))
             pianoPane.setVisible(false);
     }
     
+    /**
+     * When the user clicks a quality or extension button, show its text in the
+     * TextField
+     * @param event action on a button
+     */
     @FXML
     private void handleClick(MouseEvent event)
     {
@@ -131,13 +151,16 @@ public class ChordViewController {
         symbolTF.appendText(b1.getText());
     }
     
+    /**
+     * Not currently operable. This will initiate the actions that transpose
+     * the current output for the instrument of choice.
+     * @param instrument transpose output for this instrument
+     */
     private void transpose(String instrument)
     {
         try
         {
             cu = new ChordUtil();
-            // Get this instrument's key
-            // Get the most recent Chord's MajorKey
         } 
         catch (SQLException ex) {
             System.out.println("SQLException");
@@ -145,6 +168,10 @@ public class ChordViewController {
 
     }
     
+    /**
+     * When the user clicks Submit, get the text in the textfield and call
+     * the overloaded handleSubmit() to process it.
+     */
     @FXML
     private void handleSubmit()
     {
@@ -152,18 +179,28 @@ public class ChordViewController {
         handleSubmit(entry);
     }
     
-    public void handleSubmit(String entry)
+    /**
+     * Called indirectly, via the Submit button, or by transpose(). This class is
+     * responsible for verifying that an entry is not empty and for calling the
+     * ChordUtil methods that validate the entry characters, convert the entry
+     * to a database-compatible format, and build Chord and Scale objects.
+     * @param entry a chord symbol, before sanitization
+     */
+    private void handleSubmit(String entry)
     {
-        String origEntry = entry;
+        errorMsg.setVisible(false);
+        String origEntry = entry;   // For use in display
         MajorKey mKey = null;
         Chord chord1;
         
+        // If not empty
         if(!entry.equals(""))
         {
             try
             {
                 cu = new ChordUtil();
-                if(cu.isValidInput(entry, "^[majsuinbd1-9\\+\\-#°ø♭Δ]{1,12}$", Normalizer.Form.NFD))
+                // Normalize the input and verify that it contains only legal characters
+                if(cu.isValidInput(entry, "^[a-z1-9\\/\\+\\-#°ø♭Δ ]{1,12}$", Normalizer.Form.NFD))
                 {
                     String key = keyCombo.getValue();
                     
@@ -176,31 +213,58 @@ public class ChordViewController {
                     if(chord1 != null)
                     {
                         chord1.setDisplayName(key + " " + origEntry);
+                        
+                        // Put this Chord object in the Recent Chords ListView
                         rootCtrl.setRecentChord(chord1);
+                        
+                        // Build related Scale objects
                         cu.buildScales(chord1);
                         
+                        // Display the newly built objects
                         buildOutput(chord1);
                     }
                 }
                 else
                 {
                     // Highlight illegal char
-                    System.out.println("Illegal char");
+                    alerter.setAlert
+                        (Alert.AlertType.ERROR
+                            , "Error"
+                            , "Invalid characters"
+                            , "Please make sure your entry only contains the characters indicated in red below the text field.");
+                    errorMsg.setVisible(true);
                 }
-                
             }
             catch(SQLException ex)
             {
-                System.out.println("SQLException");
+                alerter.setAlert
+                    (Alert.AlertType.ERROR
+                        , "Error"
+                        , "Problem processing entry"
+                        , "There was a problem processing your entry. "
+                                + "The chord may not currently exist in the ChordCommand database. "
+                                + "Contact the development team if problems persist.");
+                System.out.println("Exception message: " + ex.getMessage());
+                System.out.println("Exception cause: " + ex.getCause());
             }
         }
         else
         {
-            // Highlight missing entry
+            alerter.setAlert
+                (Alert.AlertType.ERROR
+                        , "Error"
+                        , "Empty text field"
+                        , "Please make an entry in the text field before clicking Submit.");
         }
+        symbolTF.requestFocus();
     }
     
-    public void buildOutput(Chord chord)
+    /**
+     * Enable the transposition controls, clear the textfield, and call the
+     * methods that will display output.
+     * @param chord a Chord object
+     */
+    protected void buildOutput(Chord chord)
     {
         showChordDetails(chord);
         showScaleDetails(chord);
@@ -209,21 +273,29 @@ public class ChordViewController {
         symbolTF.clear();
     }
     
+    /**
+     * Display the pitches in the chord. Depending on user preferences, also
+     * display a numeric representation and a piano graphic.
+     * @param chord a Chord object to display
+     */
     private void showChordDetails(Chord chord)
     {
         if(chord != null)
         {
             entryLbl.setText("You entered: " + chord.getDisplayName());
             chordTA.clear();
-            chordTA.appendText("\nPitches:\t\t");
+            chordTA.appendText("Pitches:\t\t");
             chordTA.appendText(chord.getStrPitches());
             
-            if(main.getBooleanProp("showChordNum"))
+            // If showChordNum is true, display the string of chord numbers
+            if(((ChordCommand)mainApp).getBooleanProp("showChordNum"))
             {
                 chordTA.appendText("\nNumeric:\t\t");
                 chordTA.appendText(chord.getStrNums());
             }
-            if(main.getBooleanProp("showPiano"))
+            
+            // If showPiano property is true, prepare the piano graphic
+            if(((ChordCommand)mainApp).getBooleanProp("showPiano"))
             {
                 showPiano(chord);
             }
@@ -234,14 +306,22 @@ public class ChordViewController {
         }
     }
     
+    /**
+     * Returns a list of 5 Chord objects
+     * @return a list of 5 Chord objects, recently created
+     */
     private ObservableList<Chord> getRecentChords()
     {
         return recentChords;
     }
     
+    /**
+     * Hide the TreeView in which Scales are displayed
+     * @return true if scales were not hidden, false if hidden
+     */
     private boolean hideScales()
     {
-        boolean b = main.getBooleanProp("showAnyScale");
+        boolean b = ((ChordCommand)mainApp).getBooleanProp("showAnyScale");
         if(!b)
         {
             scaleTree.setVisible(false);
@@ -250,20 +330,29 @@ public class ChordViewController {
         return b;
     }
     
+    /**
+     * Create the tree representation of Scales that shows at least each Scale's
+     * pitches and also, per user preferences, numeric and whole/half-step
+     * representations.
+     * @param chord a Chord object, whose Scale list is to be displayed
+     */
     private void showScaleDetails(Chord chord)
     {
+        // If hideScales returned true
         if(hideScales())
         {
             if(chord != null)
         {
             scaleTree.setVisible(true);
             scalesLbl.setVisible(true);
+            
             // Create an empty root that will be hidden
             TreeItem<String> root = new TreeItem<>("");
             root.setExpanded(true);
             
-            boolean showScaleNum = main.getBooleanProp("showScaleNum");
-            boolean showWHForm = main.getBooleanProp("showWHForm");
+            // Retrieve preferences
+            boolean showScaleNum = ((ChordCommand)mainApp).getBooleanProp("showScaleNum");
+            boolean showWHForm = ((ChordCommand)mainApp).getBooleanProp("showWH");
             
             
             /*Create root's children. Each child is a scale name, which in
@@ -275,7 +364,7 @@ public class ChordViewController {
                 TreeItem<String> name = new TreeItem<>(sc.getDisplayName());
                 
                     addNode(true, sc.getStrPitches(), "Pitches:\t\t", name);
-                    addNode(showScaleNum, sc.getStrNums(), "Numerical:\t\t", name);
+                    addNode(showScaleNum, sc.getStrNums(), "Numeric:\t\t", name);
                     addNode(showWHForm, sc.getStrWH(), "Whole/Half:\t", name);
                 root.getChildren().add(name);
             }
@@ -285,7 +374,15 @@ public class ChordViewController {
         }
     }
     
-    public void addNode(boolean doShow, String val, String lbl, TreeItem<String> parent)
+    /**
+     * Add a Scale representation--numeric, pitch-based, or whole-half step--
+     * as parent's child
+     * @param doShow user's preference regarding this representation
+     * @param val the String to display
+     * @param lbl a label like "Pitches" or "Numerical"
+     * @param parent the parent TreeItem
+     */
+    private void addNode(boolean doShow, String val, String lbl, TreeItem<String> parent)
     {
         if(doShow)
         {
@@ -297,20 +394,24 @@ public class ChordViewController {
     /**
      * Use the chord pitches to display red circles and pitch names to
      * indicate the keys that compose a given chord on the piano
-     * @param chord1 
+     * @param chord1 a ChordObject
      */
     private void showPiano(Chord chord1)
     {
+        // Clear existing markers
         pianoPane.getChildren().removeAll(markers);
         markers.clear();
         pianoPane.setVisible(true); // Set visible if not already
         
         PianoMap pKeys = new PianoMap();
-        String[] pitches = chord1.getStrPitches().split("\\s+");
+        
+        // Split the string of pitches on whitespace and process each separately
+        String[] pitches = chord1.getStrPitches().split("-");
         int prevId = 0;
         int id;
         int octave = 0;
         
+        // Convert each pitch to an ID that identifies a Rectangle
         for(String p : pitches)
         {
             id = pKeys.getKeyID(p);
@@ -323,11 +424,12 @@ public class ChordViewController {
             prevId = id;
 
             // Get the Rectangle with this ID
-            Rectangle rect = (Rectangle)main.getScene().lookup("#" + id);
+            Rectangle rect = (Rectangle)((ChordCommand)mainApp).getScene().lookup("#" + id);
 
+            // Create a label/circle object for display on this Rectangle
             KeyMarker markX = new KeyMarker(rect, p);
             markers.add(markX);
         }
         pianoPane.getChildren().addAll(markers);
-    }
-}
+    } // End showPiano()
+} // End class ChordViewController

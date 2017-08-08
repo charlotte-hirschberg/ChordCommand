@@ -1,22 +1,21 @@
-package chordcommand;
+package chordcommand.view;
 
 import java.util.HashMap;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Charlotte
+/** 
+ * @Course: SDEV 435 ~ Applied Software Practice
+ * @Author Name: Charlotte Hirschberger
+ * @Assignment ChordCommand
+ * @Date: Jun 12, 2017
+ * @Description: The PianoMap class is simply a wrapper for a HashMap that
+ * maps String keys to integers that identify piano keys in the lowest octave.
+ * Each value corresponds to multiple keys.
  */
 public class PianoMap {
     private static HashMap<String, Integer> pKeys;
     
-    /**♭
-     * Populate the HashMap
+    /**
+     * Populate the HashMap with note names and piano-key IDs
      */
     public PianoMap()
     {
@@ -52,8 +51,13 @@ public class PianoMap {
         pKeys.put("C♭", 12);
     }
     
+    /**
+     * Return the piano-key ID with data-key s
+     * @param s a pitch name/map key
+     * @return 
+     */
     public int getKeyID(String s)
     {
         return pKeys.get(s);
     }
-}
+} // End class PianoMap

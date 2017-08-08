@@ -1,22 +1,21 @@
-package chordcommand;
+package chordcommand.model;
 
 import java.util.HashMap;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Charlotte
+/** 
+ * @Course: SDEV 435 ~ Applied Software Practice
+ * @Author Name: Charlotte Hirschberger
+ * @Assignment ChordCommand
+ * @Date: Jun 12, 2017
+ * @Description: This is essentially a wrapper for a HashMap with Integer key
+ * and String value. It defines the correspondence between integers -2 to 2 and
+ * accidentals.
  */
 public class AccidentalMap {
     private static HashMap<Integer, String> accidentals;
     
     /**
-     * Populate the HashMap
+     * Constructor that populates the HashMap
      */
     public AccidentalMap()
     {
@@ -37,4 +36,4 @@ public class AccidentalMap {
     {
         return accidentals.get(i);
     }
-}
+}// End class AccidentalMap

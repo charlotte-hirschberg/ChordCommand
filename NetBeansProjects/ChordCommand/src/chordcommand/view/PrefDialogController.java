@@ -1,28 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package chordcommand.view;
 
 import chordcommand.ChordCommand;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.stage.Stage;
 
-/**
- *
- * @author Charlotte
+/** 
+ * @Course: SDEV 435 ~ Applied Software Practice
+ * @Author Name: Charlotte Hirschberger
+ * @Assignment ChordCommand
+ * @Date: Jun 12, 2017
+ * @Description: The Controller object that is responsible for receiving and
+ * processing input from controls in PrefDialog.fxml. Its primary duties are
+ * setting and processing each checkbox's SelectedProperty, closing the stage,
+ * and handling button clicks.
  */
-public class PrefDialogController 
+
+public class PrefDialogController extends Controller
 {
     private Stage prefStage;
-    @FXML
-    private Button btnCancel;
-    @FXML
-    private Button btnOk;
+    
+    // CheckBoxes that control properties
     @FXML
     private CheckBox cbChordNum;
     @FXML
@@ -36,12 +35,13 @@ public class PrefDialogController
     
     private CheckBox[] checks;
     
-    private ChordCommand main;
-    
     
     /**
      * Initializes the controller class. This method is automatically called
-     * after the fxml file has been loaded.
+     * after the fxml file has been loaded. It loads the check boxes into an
+     * array for easier processing later and provides a listener for the
+     * "Show Scales" check box. The listener disables the check boxes beneath
+     * "Show Scales" when it is deselected.
      */
     @FXML
     private void initialize() 
@@ -60,69 +60,51 @@ public class PrefDialogController
                         cbWH.setDisable(!new_val);
                 });
     }
-    
-    public void setMainApp(ChordCommand main)
-    {
-        this.main = main;
-    }
-    
+   
+    /**
+     * Initialize the check boxes with values from the preferences file
+     * that were retrieved during startup.
+     */
    public void initCBValues()
    {
-        // Retrieve their initial values from Preferences file
         for(CheckBox cb : checks)
         {
             String name = cb.getId();
-            boolean isSelected = Boolean.parseBoolean(main.getSinglePref(name));
+            boolean isSelected = Boolean.parseBoolean(((ChordCommand)mainApp).getSinglePref(name));
             cb.setSelected(isSelected);
         }
    }
    
      /**
      * Sets the stage of this dialog.
-     * 
-     * @param prefStage
+     * @param prefStage the stage for this dialog
      */
-    public void setHelpStage(Stage prefStage) {
+    public void setPrefStage(Stage prefStage) {
         this.prefStage = prefStage;
         prefStage.setResizable(false);
     }
     
     /**
-     * Handle event on OK button by processing checkbox selections
+     * Handle event on OK button by processing check box selections
      */
-    public void handleOK()
+    @FXML
+    private void handleOK()
     {
-        /*First 3 options require no special handling.
-        Just get an ID and selectedProperty() and set the
+        /*get an ID and selectedProperty() and set the
         corresponding Properties value*/
-        for(int i = 0; i < 3; i++)
-            main.setSinglePref(checks[i].getId(), String.valueOf(checks[i].isSelected()));
+        for(int i = 0; i < 5; i++)
+            ((ChordCommand)mainApp).setSinglePref(checks[i].getId(), String.valueOf(checks[i].isSelected()));
         
-        /*Options 4 & 5 are dependent on Show Scales value*/
-        
-        /*'Show Scales' is selected, so change its children to reflect their
-        current state, whatever it is*/
-        if(checks[2].isSelected() == true)
-        {
-            main.setSinglePref(checks[3].getId(), String.valueOf(checks[3].isSelected()));
-            main.setSinglePref(checks[4].getId(), String.valueOf(checks[4].isSelected()));
-        }
-        
-        //'Show Scales' was deselected, so deselect its children
-        else
-        {
-            main.setSinglePref(checks[3].getId(), "false");
-            main.setSinglePref(checks[4].getId(), "false");
-        }
         handleCancel();
     }
     
     /**
-     * Closes the Preferences dialog without recording changes
+     * Close the Preferences dialog. If not called after handleOK(), this
+     * causes the dialog to close without changes being saved.
      */
+    @FXML
     public void handleCancel()
     {
         prefStage.close();
     }
-   
-}
+} // End PrefDialogController

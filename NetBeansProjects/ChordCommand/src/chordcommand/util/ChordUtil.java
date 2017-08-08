@@ -1,13 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package chordcommand;
+package chordcommand.util;
 
-import model.MajorKey;
-import model.Scale;
-import model.Chord;
+import chordcommand.model.MajorKey;
+import chordcommand.model.Scale;
+import chordcommand.model.Chord;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,44 +12,49 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.dbcp2.BasicDataSource;
 
-/**
- *
- * @author Charlotte
+/** 
+ * @Course: SDEV 435 ~ Applied Software Practice
+ * @Author Name: Charlotte Hirschberger
+ * @Assignment ChordCommand
+ * @Date: Jun 12, 2017
+ * @Description: This class contains the methods that validate and verify a
+ * chord symbol entry and then interact with a database to retrieve data for
+ * building Chord and Scale objects. Upon construction of the ChordUtil object,
+ * prepared statements are created for use until the program terminates.
  */
-
 public class ChordUtil 
 {
     private PreparedStatement psMajKey;
     private PreparedStatement psChordData;
     private PreparedStatement psGetScales;
+    
     /**
-     * Constructor prepares a series of PreparedStatements to be used repeatedly
-     * while building Chord and Scale objects
-     * TO DO: Close resources
+     * Constructor establishes a database connection and prepares a series of 
+     * PreparedStatements to be used repeatedly while building Chord and Scale 
+     * objects.
      * @throws java.sql.SQLException
      */
     public ChordUtil() throws SQLException
-    {        
-        try (BasicDataSource source = DBUtil.getDataSource())
-        { 
-            Connection conn = source.getConnection();
-            psMajKey = conn.prepareStatement("SELECT MajorSuffixes FROM MajorKeyLU WHERE MajorKeyName = ?");
-            psChordData = conn.prepareStatement("SELECT ChordID, ChordStruc, ChordSuffixes "
+    {           
+        BasicDataSource source = DBUtil.getDataSource();
+
+        Connection conn = source.getConnection();
+        psMajKey = conn.prepareStatement("SELECT MajorSuffixes FROM MajorKeyLU WHERE MajorKeyName = ?");
+        psChordData = conn.prepareStatement("SELECT ChordID, ChordStruc, ChordSuffixes "
                     + "FROM SymbolConversion as sc JOIN ChordStructure as cst ON sc.ChordStructID = cst.ChordStrucID "
                     + "WHERE ChordSymbol = ?");
-            psGetScales = conn.prepareStatement("SELECT ScaleName, WHForm, ScaleSuffixes, ScaleStruc "
+        psGetScales = conn.prepareStatement("SELECT ScaleName, WHForm, ScaleSuffixes, ScaleStruc "
                     + "FROM Scales as sc JOIN ScaleStructure as ss ON sc.ScaleStrucID = ss.ScaleStrucID "
                     + "JOIN ScalesChords as br ON sc.ScaleID = br.ScaleID "
                     + "JOIN SymbolConversion as sym ON br.ChordID = sym.ChordID WHERE sym.ChordID = ?;");
-        }
-
     }
+    
     /**
      * Convert text to given Form if provided. Otherwise, normalize with NFC.
      * Return true if text satisfies regex argument, false if it does not.
      * @param text  TextField entry
-     * @param regex
-     * @param form
+     * @param regex regular expression
+     * @param form  optional, a Normalizer form
      * @return      is valid input?
      */
     public boolean isValidInput(String text, String regex, Normalizer.Form form)
@@ -71,11 +71,17 @@ public class ChordUtil
         return m.matches();
     }
     
+    public String stripSpaces(String text)
+    {
+        text = text.replaceAll("\\s+","");
+        return text;
+    }
+    
     /**
      * Retrieve a comma-separated MajorSuffixes string from database and use it
      * to build a new MajorKey.
      * @param key
-     * @return
+     * @return a MajorKey object
      * @throws SQLException 
      */
     public MajorKey buildKey(String key) throws SQLException
@@ -90,11 +96,8 @@ public class ChordUtil
                 mKey.setSuffixes(rs.getString("MajorSuffixes"));
             }
             else
-            {
-                // Alert no such key
-            }
+                throw new SQLException();
         }
-        
         return mKey;
     }
     
@@ -103,10 +106,12 @@ public class ChordUtil
      * '-' for minor, 'b' for flat, '+' for augmented, '°' for diminished.
      * 
      * @param entry     user's entry with spaces and key stripped away
-     * @return 
+     * @return          the converted, database-friendly entry
      */
     public String formatSymbol(String entry)
     {
+        entry = stripSpaces(entry);
+        
         // Replace any instance of flat symbol with 'b'
         entry = entry.replace('♭', 'b');
         
@@ -133,6 +138,15 @@ public class ChordUtil
         return entry;
     }
     
+    /**
+     * Use the entry from formatSymbol to query the database for a matching
+     * Chord record. If the query returns a record, use its fields to build a
+     * Chord object.
+     * @param entry the converted, database-friendly chord symbol
+     * @param mKey a MajorKey object
+     * @return  a Chord object
+     * @throws SQLException 
+     */
     public Chord buildChord(String entry, MajorKey mKey) throws SQLException
     {
         Chord chord1 = null;
@@ -151,14 +165,19 @@ public class ChordUtil
                 chord1.setDisplayVals();
             }
             else
-            {
-                // Alert chord not found
-            }
+                throw new SQLException();
         }
         
         return chord1;
     }
     
+    /**
+     * Use the Chord ID to run a query that retrieves all related Scales from
+     * the database. Construct a Scale object from each record and then add the
+     * Scale object to the chord's list of Scale objects
+     * @param chord
+     * @throws SQLException 
+     */
     public void buildScales(Chord chord) throws SQLException
     {
         psGetScales.setInt(1, chord.getId());
@@ -173,8 +192,10 @@ public class ChordUtil
                 String nums = rs.getString("ScaleStruc");
                 String suffx = rs.getString("ScaleSuffixes");
                 
-                // Call Scale constructor to handle building pertinent arrays
+                // Call Scale constructor
                 Scale scale1 = new Scale(name, wh, mKey);
+                
+                // Calling MusicStructure methods inherited by Scale
                 scale1.setNumArr(nums);
                 scale1.setSuffsArr(suffx);
                 scale1.setDisplayVals();
@@ -184,5 +205,4 @@ public class ChordUtil
             }
         }
     }
-    
-}
+}// End class ChordUtil

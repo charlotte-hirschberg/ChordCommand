@@ -1,11 +1,7 @@
-/**
- * GridPane that holds Menu icon, banner, Help icon, and chord input/output
- */
-
 package chordcommand.view;
 
-import model.Chord;
 import chordcommand.ChordCommand;
+import chordcommand.model.Chord;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,7 +14,16 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
-public class RootLayoutController {
+/** 
+ * @Course: SDEV 435 ~ Applied Software Practice
+ * @Author Name: Charlotte Hirschberger
+ * @Assignment ChordCommand
+ * @Date: Jun 12, 2017
+ * @Description: The RootLayoutController class is responsible for actions on
+ * the controls that frame the chord output, including the menu, banner, help icon,
+ * and Recent Chords. The controls are positioned in a GridPane.
+ */
+public class RootLayoutController extends Controller {
 
     @FXML
     private GridPane frameControlsGP;
@@ -28,12 +33,14 @@ public class RootLayoutController {
     private ListView<Chord> recentChords;
     private ObservableList<Chord> chordData = FXCollections.observableArrayList();
     
-    private ChordCommand main;
     private ChordViewController chordCtrl;
 
     /**
      * Initializes the controller class. This method is automatically called
-     * after the fxml file has been loaded.
+     * after the fxml file has been loaded. Its primary responsibilities are:
+     * populating the Recent Chords ListView; updating the ListView whenever a
+     * Chord object is added to chordData, via the input area; and changing the
+     * output to reflect clicks on Recent Chord items.
      */
     @FXML
     private void initialize() 
@@ -66,26 +73,34 @@ public class RootLayoutController {
     }
     
     /**
-     * Called by main, so this class has a reference to it
-     * @param main 
+     * Give this a reference to the ChordViewController, so clicking the
+     * Recent Chords list produces a change in output.
+     * @param ctrller a ChordViewController object
      */
-    public void setMainApp(ChordCommand main)
-    {
-        this.main = main;
-    }
-    
     public void setChordCtrl(ChordViewController ctrller)
     {
         chordCtrl = ctrller;
     }
     
+    /**
+     * Add the latest Chord to the ObservableList used to populate Recent Chords.
+     * If the ListView already contains 5 entries, this removes the one with the
+     * lowest lexographical value. Eventually, chordData should implement a
+     * Comparator that maintains a timestamp-based sort, instead of an
+     * alphabetical one.
+     * @param chord a Chord object
+     */
     public void setRecentChord(Chord chord)
-    {
-        if(chordData.size() > 5)
-            chordData.remove(0);
+    {   
+        if(chordData.size() >= 5)
+             chordData.remove(0);     
+
         chordData.add(chord);
     }
     
+    /**Set the GridPane's width so it fills the primary Stage
+     * @param w the primary stage's width
+     */
     public void setGridWidth(ReadOnlyDoubleProperty w)
     {
         frameControlsGP.prefWidthProperty().bind(w.subtract(40));
@@ -93,7 +108,7 @@ public class RootLayoutController {
     
     /**
      * Return the layout at 1,1, so ChordView can be placed in it
-     * @return HBox
+     * @return HBox the pane that will hold chord output
      */
     public HBox getCenterPane()
     {
@@ -105,15 +120,15 @@ public class RootLayoutController {
      */
     public void handleHelp()
     {
-        main.showHelpView();
+        ((ChordCommand)mainApp).showHelpView();
     }
     
     /**
-     * Handle Preferences option in the menu
+     * Load the Preferences stage, on menu click
      */
     public void handlePrefItem()
     {
-        main.showPrefView();
+        ((ChordCommand)mainApp).showPrefView();
     }
     
     /**
@@ -133,7 +148,6 @@ public class RootLayoutController {
      */
     public void handleCloseItem()
     {
-        main.causeExit();
-    }
-    
-}
+        ((ChordCommand)mainApp).causeExit();
+    } 
+} // End class RootLayoutController

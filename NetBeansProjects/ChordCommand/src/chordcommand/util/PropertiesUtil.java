@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package chordcommand;
+package chordcommand.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,31 +9,41 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
-/**
- *
- * @author Charlotte
+/** 
+ * @Course: SDEV 435 ~ Applied Software Practice
+ * @Author Name: Charlotte Hirschberger
+ * @Assignment ChordCommand
+ * @Date: Jun 12, 2017
+ * @Description: The PropertiesUtil class contains methods for creating
+ * Properties objects from file content and for persisting Properties in files.
  */
-
-// TO DO: Combine redundant code in loadParams & load..FromXML
 public class PropertiesUtil 
 {
     /**
      * Load and return properties from file @fileName
      * @param fileName
-     * @return Properties       Example: db credentials
+     * @return Properties--Example: database credentials
      * @throws FileNotFoundException
      * @throws IOException 
      */
     public Properties loadParams(String fileName) throws FileNotFoundException, IOException
     {
         Properties props = new Properties();
-        File f = new File(fileName);
-        InputStream in = new FileInputStream(f);
+        
+        InputStream in = chordcommand.ChordCommand.class.getResourceAsStream(fileName);
         props.load(in);
+    
         
         return props;
     }
     
+    /**
+     * Persist Properties in a file.
+     * @param props a Properties object
+     * @param fileName the name of a file to persist changes in
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public void saveParamChanges(Properties props, String fileName) 
             throws FileNotFoundException, IOException
     {
@@ -46,4 +51,4 @@ public class PropertiesUtil
         props.store(out, null);
     }
     
-}
+} // End class PropertiesUtil
