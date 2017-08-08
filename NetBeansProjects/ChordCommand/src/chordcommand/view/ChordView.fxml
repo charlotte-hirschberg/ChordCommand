@@ -172,7 +172,7 @@
                   <Insets />
                </VBox.margin>
             </GridPane>
-      <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="908.0" spacing="5.0">
+      <HBox prefHeight="39.0" prefWidth="908.0" spacing="5.0">
          <children>
             <Label prefHeight="27.0" prefWidth="82.0" text="Symbol: ">
                <font>
@@ -180,11 +180,12 @@
                </font>
             </Label>
             <TextField fx:id="keyTF" alignment="CENTER" prefHeight="31.0" prefWidth="53.0" text="C" />
-            <TextField fx:id="symbolTF" prefHeight="31.0" prefWidth="759.0">
-               <HBox.margin>
-                  <Insets right="10.0" />
-               </HBox.margin>
-            </TextField>
+            <VBox prefHeight="52.0" prefWidth="766.0">
+               <children>
+                  <TextField fx:id="symbolTF" prefHeight="31.0" prefWidth="407.0" />
+                  <Label fx:id="errorMsg" text="Your entry can contain: spaces, digits 1-9, letters, and the symbols °,  ø, ♭, #, -, +, /, Δ  " textFill="RED" visible="false" />
+               </children>
+            </VBox>
             <Button mnemonicParsing="false" onMouseClicked="#handleSubmit" prefHeight="39.0" prefWidth="101.0" text="Submit">
                <font>
                   <Font size="18.0" />

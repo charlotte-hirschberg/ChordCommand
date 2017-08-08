@@ -6,33 +6,25 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.stage.Stage;
 
-
-public class HelpViewController {
+/** 
+ * @Course: SDEV 435 ~ Applied Software Practice
+ * @Author Name: Charlotte Hirschberger
+ * @Assignment ChordCommand
+ * @Date: Jun 12, 2017
+ * @Description: The HelpViewController class interacts with the HelpView.fxml
+ * file, obtaining input from a Button and CheckBox and displaying the Stage
+ * when the question-mark icon is clicked. This relies on Controller's empty
+ * initialize method.
+ */
+public class HelpViewController extends Controller
+{
 
     @FXML
-    private CheckBox noShowCB;
+    private CheckBox noShowCB; // show help on next startup?
     @FXML
     private Button gotIt;
 
     private Stage helpStage;
-    private ChordCommand main;
-
-    /**
-     * Initializes the controller class. This method is automatically called
-     * after the fxml file has been loaded.
-     */
-    @FXML
-    private void initialize() {
-    }
-    
-    /**
-     * Called by main, so this class has a reference to it
-     * @param main 
-     */
-    public void setMainApp(ChordCommand main)
-    {
-        this.main = main;
-    }
 
     /**
      * Sets the stage of this dialog.
@@ -45,13 +37,14 @@ public class HelpViewController {
     }
     
     /**
-     * Called when the user clicks ok.
+     * Called when the user clicks ok. Closes the stage and sets the showHelp
+     * preference to false if the checkbox is selected.
      */
     @FXML
     private void handleOk() 
     {
         if(noShowCB.isSelected())
-            main.setSinglePref("showHelp", "0");
+            ((ChordCommand)mainApp).setSinglePref("showHelp", "0");
         helpStage.close();
     }
-}
+} // End class HelpViewController
