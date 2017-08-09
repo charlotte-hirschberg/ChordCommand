@@ -84,4 +84,48 @@ Inserting a chord involves selecting a key from the Key dropdown and then enteri
 Notice that 'b' and ♭ are treated identically. **ChordCommand** was designed to be very flexible. As another example, a minor chord can be entered with '-', "mi", "min", "MI", or "MIN".
 
 ## Documentation
-We highly recommend that you have a look at **ChordCommand's** documentation if you're having trouble with these instructions or if you're considering contributing to development. The documentation is a Word document located at ___
+We highly recommend that you have a look at **ChordCommand's** documentation if you're having trouble with these instructions or if you're considering contributing to development. The documentation is a Word document titled ChordCommand Documentation.docx, located in this repository.
+
+## Development Environment
+If you want to contribute to **ChordCommand**, we recommend the following 6 components:
+* Java SE Development Kit (JDK)
+* IDE with Java support, like NetBeans
+* GitHub Account
+* GitHub Shell or Plugin
+* ChordCommand Source Code
+* MySQL Server
+
+### Java SE Development Kit (JDK)
+Navigate to Oracle’s JDK downloads page: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html Click "Accept License Agreement" and select a download. When the download completes, open it and follow the directions in the installation wizard.
+
+### NetBeans
+Other IDEs, like Eclipse, support Java, but the instructions here describe the process with NetBeans.
+1.	Navigate to the NetBeans downloads page at https://netbeans.org/downloads/
+2.	Select your Language and Platform from the dropdown menus at the top right and then click the Download button for Java SE. When the download completes, open it and follow the directions in the installation wizard.
+
+### GitHub Account
+1.	If you don’t have a GitHub account, register for one at https://github.com/join
+2.	Navigate to the ChordCommand repository at https://github.com/charlotte-hirschberg/ChordCommand. To push code to the repository for approval and incorporation by the ChordCommand team, you need to be an official Collaborator. Email charlotte.hirschberg@mymail.champlain.edu to be added as a Collaborator.
+
+### GitHub Plugin
+Everything you can accomplish (and more) with NetBean’s GitHub Plugin can be accomplished via the Git Shell. However, if you are new to Git or the command line, the Plugin offers a much more user-friendly experience.
+1.	Open NetBeans and select “Plugins” from the Tools menu.
+2.	Switch to the “Available Plugins” tab, click the check box next to “Git”, and select Install. Follow the instructions on the screen to complete the installation.
+
+### ChordCommand Source Chord
+Open NetBeans. Clone the **ChordCommand** repository by following these directions https://netbeans.org/kb/docs/ide/git.html#clone and using https://github.com/charlotte-hirschberg/ChordCommand as the "Repository URL".
+
+### MySQL Server
+Follow the directions in [Installation](#installation) to install, configure, and prepare MySQL. One important difference: when preparing the database, specify the location of ChordDbDump.sql in the local directory you created while cloning the **ChordCommand** repository.
+
+### Working on Code
+If you are unfamiliar with Git, it is strongly recommended that you read Atlassian’s Git tutorial to understand the underlying concepts:
+* https://www.atlassian.com/git/tutorials/what-is-version-control
+
+To work on the code you cloned, please observe the following directions:
+1. Create a new branch (directions below). This will isolate your untested code from existing code, so any bugs won't 'break' the existing work.
+2. Commit your changes. Follow these directions: https://netbeans.org/kb/docs/ide/git.html#committing
+3. Push your changes. Follow these directions: https://netbeans.org/kb/docs/ide/git.html#push
+4. Submit a Compare & pull request. You do this by navigating to the **ChordCommand** repository in your Web browser. Once there, open the "Branch" dropdown, and you should see your branch listed. Click your branch. On the next page, click "Compare & pull request" and enter a message on the page that follows. 
+
+After you submit your pull request, GitHub might tell you that merging can be completed automatically, but please do not merge the pull request yourself. Let others test and review your code, and a member of **ChordCommand’s** core development team will approve and perform the merge. **Thank you!**
