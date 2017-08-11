@@ -2,6 +2,7 @@ package chordcommand;
 
 //Imports
 import chordcommand.util.AlertSetter;
+import chordcommand.util.ChecksumUtil;
 import chordcommand.util.DBUtil;
 import chordcommand.util.PropertiesUtil;
 import chordcommand.view.ChordViewController;
@@ -9,8 +10,11 @@ import chordcommand.view.HelpViewController;
 import chordcommand.view.PrefDialogController;
 import chordcommand.view.RootLayoutController;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,7 +41,7 @@ public class ChordCommand extends Application {
     private ObservableList<String> instrComboData = FXCollections.observableArrayList();
     private ObservableList<String> keyComboData = FXCollections.observableArrayList();
 
-    private final static String PREF_FILE = "userprefs.properties";
+    private final static String PREF_FILE = "src/chordcommand/userprefs.properties";
     private PropertiesUtil pu;
     private Properties prefs;
     private Scene scene;
@@ -49,9 +53,10 @@ public class ChordCommand extends Application {
      * @param primaryStage the main screen
      */
     @Override
-    public void start(Stage primaryStage) 
+    public void start(Stage primaryStage)
     {
         this.primaryStage = primaryStage;
+        ChecksumUtil chku = new ChecksumUtil();
         alerter = new AlertSetter();       
         initDB();
         initRootLayout();
@@ -82,6 +87,8 @@ public class ChordCommand extends Application {
                                 , "Error saving preferences"
                                 , "Any changes to your preferences could not be saved.");
 
+                }catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(ChordCommand.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 try
                 {
@@ -119,7 +126,7 @@ public class ChordCommand extends Application {
         {
             prefs = pu.loadParams(PREF_FILE);
         } 
-        catch (IOException ex) {
+        catch (IOException | NoSuchAlgorithmException ex) {
             alerter.setAlert
                 (Alert.AlertType.ERROR
                         , "Error"
@@ -245,7 +252,7 @@ public class ChordCommand extends Application {
 	{
             dbUtil = new DBUtil();
 	}
-        catch(IOException e)
+        catch(IOException | NoSuchAlgorithmException e)
         {
             alerter.setAlert
                 (Alert.AlertType.ERROR
