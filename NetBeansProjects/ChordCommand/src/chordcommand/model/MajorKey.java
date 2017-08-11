@@ -1,14 +1,14 @@
 package chordcommand.model;
 
 /** 
- * @Course: SDEV 435 ~ Applied Software Practice
- * @Author Name: Charlotte Hirschberger
- * @Assignment ChordCommand
- * @Date: Jun 12, 2017
- * @Description: The MajorKey uses a 1-2 letter String to first construct two
+ * Description: The MajorKey uses a 1-2 letter String to first construct two
  * arrays that represent the MajorKey's pitches and accidentals respectively.
  * The majorPitches array takes the form of 6 letters in the range A-G. The
  * majorSuffixes array takes the form of numbers -2-2.
+ * <p>Course: SDEV 435 ~ Applied Software Practice</p>
+ * <p>Author Name: Charlotte Hirschberger</p>
+ * <p>Assignment ChordCommand</p>
+ * Created Date: Jun 12, 2017
  */
 public class MajorKey {
     private String keyName;

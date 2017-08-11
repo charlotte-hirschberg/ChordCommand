@@ -1,12 +1,12 @@
 package chordcommand.model;
 
 /** 
- * @Course: SDEV 435 ~ Applied Software Practice
- * @Author Name: Charlotte Hirschberger
- * @Assignment ChordCommand
- * @Date: Jun 12, 2017
- * @Description: An immediate subclass of MusicStructure. Defines the traits
+ * Description: An immediate subclass of MusicStructure. Defines the traits
  * that differentiate a scale from a chord.
+ * <p>Course: SDEV 435 ~ Applied Software Practice</p>
+ * <p>Author Name: Charlotte Hirschberger</p>
+ * <p>Assignment ChordCommand</p>
+ * Created Date: Jun 12, 2017
  */
 public class Scale extends MusicStructure {
     private String whForm;

@@ -3,12 +3,12 @@ package chordcommand.model;
 import java.util.ArrayList;
 
 /** 
- * @Course: SDEV 435 ~ Applied Software Practice
- * @Author Name: Charlotte Hirschberger
- * @Assignment ChordCommand
- * @Date: Jun 12, 2017
- * @Description: Sub class of MusicStructure. This Chord adds a list of Scale
+ * Description: Sub class of MusicStructure. This Chord adds a list of Scale
  * objects, an ID number, and the chord symbol recognized by the database.
+ * <p>Course: SDEV 435 ~ Applied Software Practice</p>
+ * <p>Author Name: Charlotte Hirschberger</p>
+ * <p>Assignment ChordCommand</p>
+ * Created Date: Jun 12, 2017
  */
 public class Chord extends MusicStructure {
     private String dbName;  // Chord symbol recognized by database

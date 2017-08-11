@@ -3,13 +3,13 @@ package chordcommand.model;
 import java.util.HashMap;
 
 /** 
- * @Course: SDEV 435 ~ Applied Software Practice
- * @Author Name: Charlotte Hirschberger
- * @Assignment ChordCommand
- * @Date: Jun 12, 2017
- * @Description: This is essentially a wrapper for a HashMap with Integer key
+ * Description: This is essentially a wrapper for a HashMap with Integer key
  * and String value. It defines the correspondence between integers -2 to 2 and
  * accidentals.
+ * <p>Course: SDEV 435 ~ Applied Software Practice</p>
+ * <p>Author Name: Charlotte Hirschberger</p>
+ * <p>Assignment ChordCommand</p>
+ * Created Date: Jun 12, 2017
  */
 public class AccidentalMap {
     private static HashMap<Integer, String> accidentals;
