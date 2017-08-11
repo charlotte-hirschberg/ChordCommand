@@ -1,12 +1,12 @@
 package chordcommand.util;
 
 /** 
- * @Course: SDEV 435 - A
- * @Author Name: Charlotte Hirschberger
- * @Assignment Name: Chord Command
- * @Created Date: Feb 28, 2016
- * @Last Update: 8/2/17
- * @Description: Constructs and displays Alert using given parameters
+ * Description: Constructs and displays Alert using given parameters
+ * <p>Course: SDEV 435 ~ Applied Software Practice</p>
+ * <p>Author Name: Charlotte Hirschberger</p>
+ * <p>Assignment ChordCommand</p>
+ * <p>Created Date: Feb 28, 2016</p>
+ * Last Update: 8/2/17 
  */
 
 //Imports
