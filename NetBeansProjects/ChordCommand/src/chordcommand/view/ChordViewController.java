@@ -257,7 +257,7 @@ public class ChordViewController extends Controller {
                         , "Please make an entry in the text field before clicking Submit.");
         }
         symbolTF.requestFocus();
-    }
+    } // End handleSubmit
     
     /**
      * Enable the transposition controls, clear the textfield, and call the
@@ -304,7 +304,7 @@ public class ChordViewController extends Controller {
                 pianoPane.setVisible(false);
             }
         }
-    }
+    }// End showChordDetails()
     
     /**
      * Returns a list of 5 Chord objects
@@ -372,7 +372,7 @@ public class ChordViewController extends Controller {
             scaleTree.setShowRoot(false);
         }
         }
-    }
+    } // End showScaleDetails
     
     /**
      * Add a Scale representation--numeric, pitch-based, or whole-half step--
