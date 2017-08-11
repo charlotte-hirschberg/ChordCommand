@@ -9,12 +9,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.Region;
 
 /** 
- * @Course: SDEV 435 ~ Applied Software Practice
- * @Author Name: Charlotte Hirschberger
- * @Assignment ChordCommand
- * @Date: July 31, 2017
- * @Description: This class encapsulates Controller and Region members with
+ * Description: This class encapsulates Controller and Region members with
  * accessors and methods that load an FXML file and link it to the Controller
+ * <p>Course: SDEV 435 ~ Applied Software Practice</p>
+ * <p>Author Name: Charlotte Hirschberger</p>
+ * <p>Assignment ChordCommand</p>
+ * Created Date: Jun 12, 2017
  */
 public class RegionControl {
     private Controller ctrller;     // Custom class
