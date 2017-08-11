@@ -15,13 +15,13 @@ import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
 /** 
- * @Course: SDEV 435 ~ Applied Software Practice
- * @Author Name: Charlotte Hirschberger
- * @Assignment ChordCommand
- * @Date: Jun 12, 2017
- * @Description: The RootLayoutController class is responsible for actions on
+ * Description: The RootLayoutController class is responsible for actions on
  * the controls that frame the chord output, including the menu, banner, help icon,
  * and Recent Chords. The controls are positioned in a GridPane.
+ * <p>Course: SDEV 435 ~ Applied Software Practice</p>
+ * <p>Author Name: Charlotte Hirschberger</p>
+ * <p>Assignment ChordCommand</p>
+ * Created Date: Jun 12, 2017
  */
 public class RootLayoutController extends Controller {
 

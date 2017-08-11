@@ -8,13 +8,13 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 /** 
- * @Course: SDEV 435 ~ Applied Software Practice
- * @Author Name: Charlotte Hirschberger
- * @Assignment ChordCommand
- * @Date: Jun 12, 2017
- * @Description: The KeyMarker class creates a Label and Circle displayed on a
+ * Description: The KeyMarker class creates a Label and Circle displayed on a
  * piano key. It derives the KeyMarker's layout attributes from the corresponding
  * Rectangle's position.
+ * <p>Course: SDEV 435 ~ Applied Software Practice</p>
+ * <p>Author Name: Charlotte Hirschberger</p>
+ * <p>Assignment ChordCommand</p>
+ * Created Date: Jun 12, 2017
  */
 public class KeyMarker extends VBox
 {

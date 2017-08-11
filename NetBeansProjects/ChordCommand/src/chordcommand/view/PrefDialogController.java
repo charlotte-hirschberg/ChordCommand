@@ -7,14 +7,14 @@ import javafx.scene.control.CheckBox;
 import javafx.stage.Stage;
 
 /** 
- * @Course: SDEV 435 ~ Applied Software Practice
- * @Author Name: Charlotte Hirschberger
- * @Assignment ChordCommand
- * @Date: Jun 12, 2017
- * @Description: The Controller object that is responsible for receiving and
+ * Description: The Controller object that is responsible for receiving and
  * processing input from controls in PrefDialog.fxml. Its primary duties are
  * setting and processing each checkbox's SelectedProperty, closing the stage,
  * and handling button clicks.
+ * <p>Course: SDEV 435 ~ Applied Software Practice</p>
+ * <p>Author Name: Charlotte Hirschberger</p>
+ * <p>Assignment ChordCommand</p>
+ * Created Date: Jun 12, 2017
  */
 
 public class PrefDialogController extends Controller
