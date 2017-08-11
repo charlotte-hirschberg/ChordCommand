@@ -1,6 +1,7 @@
 package chordcommand.util;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,13 +25,15 @@ public class DBUtil
 {
     private static BasicDataSource ds;
     private static Properties dbProps;
-    private final static String FILE_NAME = "dbprops.properties";
+    private final static String FILE_NAME = "src/chordcommand/dbprops.properties";
     
     /**
      * Load the database-connection parameters from a .properties file.
      * @throws IOException 
+     * @throws java.security.NoSuchAlgorithmException error while verifying file
+     * authenticity
      */
-    public DBUtil() throws IOException
+    public DBUtil() throws IOException, NoSuchAlgorithmException
     {
         PropertiesUtil pUtil = new PropertiesUtil();
         dbProps = pUtil.loadParams(FILE_NAME);
@@ -71,7 +74,7 @@ public class DBUtil
                 Statement stmt = connection.createStatement();
                 ResultSet rs = stmt.executeQuery(query))
 	{
-            while(rs.next())
+        while(rs.next())
                 list.add(rs.getString(colName));
 	}
         return list;

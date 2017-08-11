@@ -1,12 +1,12 @@
 package chordcommand.util;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.NoSuchAlgorithmException;
 import java.util.Properties;
 
 /** 
@@ -19,20 +19,41 @@ import java.util.Properties;
  */
 public class PropertiesUtil 
 {
+    static ChecksumUtil chkUtil;
+    
+    public PropertiesUtil()
+    {
+        chkUtil = new ChecksumUtil();        
+    }
+    
     /**
      * Load and return properties from file @fileName
      * @param fileName
      * @return Properties--Example: database credentials
      * @throws FileNotFoundException
      * @throws IOException 
+     * @throws java.security.NoSuchAlgorithmException 
      */
-    public Properties loadParams(String fileName) throws FileNotFoundException, IOException
+    public Properties loadParams(String fileName) throws FileNotFoundException, IOException, NoSuchAlgorithmException
     {
+        boolean isMatch = chkUtil.compareChecksums(fileName);
+        
+        
+        if(isMatch)
+        {
+            System.out.println("Is a match: " + fileName);
+        } 
+        else
+        {
+            System.out.println("Not a match: " + fileName);
+        }
+        
         Properties props = new Properties();
         
-        InputStream in = chordcommand.ChordCommand.class.getResourceAsStream(fileName);
-        props.load(in);
-    
+        try(InputStream in = new FileInputStream(fileName))
+        {
+            props.load(in); 
+        }
         
         return props;
     }
@@ -43,12 +64,16 @@ public class PropertiesUtil
      * @param fileName the name of a file to persist changes in
      * @throws FileNotFoundException
      * @throws IOException 
+     * @throws java.security.NoSuchAlgorithmException 
      */
     public void saveParamChanges(Properties props, String fileName) 
-            throws FileNotFoundException, IOException
+            throws FileNotFoundException, IOException, NoSuchAlgorithmException
     {
-        OutputStream out = new FileOutputStream(new File(fileName));
-        props.store(out, null);
+        try(OutputStream out = new FileOutputStream(fileName))
+        {
+            props.store(out, null);
+        }
+        chkUtil.createCheckFile(fileName);        
     }
     
 } // End class PropertiesUtil
