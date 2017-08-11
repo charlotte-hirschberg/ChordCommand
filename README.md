@@ -81,6 +81,8 @@ The main screen also has a menu in its top-left corner. Use the menu to access P
 
 Inserting a chord involves selecting a key from the Key dropdown and then entering the remainder of the symbol. Entering the remainder of the symbol can be accomplished by typing, pasting, using the on-screen buttons, or combining these methods. Here's the output for the chord symbol "G-♭9♭6". 'G' was selected from the dropdown box. The numbers, the minus sign, and 'b' were entered via the keyboard, and the flat symbol ♭ was entered using an on-screen button. 
 
+<img src = "demo_entry.png">
+
 Notice that 'b' and ♭ are treated identically. **ChordCommand** was designed to be very flexible. As another example, a minor chord can be entered with '-', "mi", "min", "MI", or "MIN".
 
 ## Documentation
