@@ -41,6 +41,7 @@ public class KeyMarker extends VBox
         note = new Label(pitch);
         circ = new Circle(RADIUS);
         circ.setFill(CIRC_FILL);
+        note.setTextFill(CIRC_FILL);
             
         this.getChildren().add(circ);
         this.getChildren().add(note);
