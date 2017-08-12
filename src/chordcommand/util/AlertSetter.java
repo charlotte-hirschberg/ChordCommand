@@ -1,12 +1,12 @@
 package chordcommand.util;
 
 /** 
- * @Course: SDEV 435 - A
- * @Author Name: Charlotte Hirschberger
- * @Assignment Name: Chord Command
- * @Created Date: Feb 28, 2016
- * @Last Update: 8/2/17
- * @Description: Constructs and displays Alert using given parameters
+ * Description: Constructs and displays Alert using given parameters
+ * <p>Course: SDEV 435 ~ Applied Software Practice</p>
+ * <p>Author Name: Charlotte Hirschberger</p>
+ * <p>Assignment ChordCommand</p>
+ * <p>Created Date: Feb 28, 2016</p>
+ * Last Update: 8/2/17 
  */
 
 //Imports
@@ -35,6 +35,41 @@ public class AlertSetter
         
         //store user's choice (OK or Cancel) in result
         result = al.showAndWait();
+    }
+    
+        /**Returns a prepared alert, so the calling method can take care of displaying
+     * it. Example: calling method populates the dialog with custom buttons.
+     * @param alType Alert.AlertType- error, confirmation, etc
+     * @param title dialog title
+     * @param header heading within dialog
+     * @param content description of error
+     * @return 
+     */
+    public Alert getAlert(Alert.AlertType alType, String title, String header, String content)
+    {
+        Alert al = new Alert(alType);
+        al.setTitle(title);
+        al.setHeaderText(header);
+        al.setContentText(content);
+        
+        return al;
+    }
+    
+    /**
+     * Puts Yes and No buttons in an alert dialog and causes the No button
+     * to trigger System.exit.
+     * @param al the alert object
+     */
+    public void setYesNo(Alert al)
+    {           
+        ButtonType typeYes = new ButtonType("Yes");
+        ButtonType typeNo = new ButtonType("No");
+            
+        al.getButtonTypes().setAll(typeYes, typeNo);
+        Optional<ButtonType> result2 = al.showAndWait();
+            
+        if(result2.get() == typeNo)
+            System.exit(1);
     }
     
     /**
