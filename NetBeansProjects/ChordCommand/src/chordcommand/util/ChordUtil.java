@@ -71,6 +71,10 @@ public class ChordUtil
         return m.matches();
     }
     
+    /**Removes spaces from a string
+     * @param text text to remove spaces from
+     * @return string without spaces
+     */
     public String stripSpaces(String text)
     {
         text = text.replaceAll("\\s+","");
