@@ -1,4 +1,4 @@
-<img src = "NetBeansProjects/ChordCommand/src/chordcommand/view/ChordCommandLogo (1).png">
+<img src = "/chordcommand/view/ChordCommandLogo (1).png">
 
 "Khordḗ": meaning "string of gut" in Ancient Greek. From these unromantic origins comes the most evocative ingredient in music—the chord, a series of three or more notes played at once. From the haunting air of a minor key to the soulful sound of a blues chorus, the chord sets music's mood.
 
