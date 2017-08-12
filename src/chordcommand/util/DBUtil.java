@@ -11,29 +11,30 @@ import javafx.collections.ObservableList;
 import org.apache.commons.dbcp2.*;
 
 /** 
- * @Course: SDEV 435 ~ Applied Software Practice
- * @Author Name: Charlotte Hirschberger
- * @Assignment ChordCommand
- * @Date: Jun 12, 2017
- * @Description: The DBUtil class uses Apache's pooling and DBCP libraries to
+ * Description: The DBUtil class uses Apache's pooling and DBCP libraries to
  * create a connection pool. A limited number of connections remain open and are
  * recycled as necessary, instead of repeatedly establishing new connections, 
  * which would drain resources.
+ * <p>Course: SDEV 435 ~ Applied Software Practice</p>
+ * <p>Author Name: Charlotte Hirschberger</p>
+ * <p>Assignment ChordCommand</p>
+ * Created Date: Jun 12, 2017
  */
 public class DBUtil 
 {
     private static BasicDataSource ds;
     private static Properties dbProps;
-    private final static String FILE_NAME = "dbprops.properties";
+    private static boolean success; // database connection successfully established?
     
-    /**
-     * Load the database-connection parameters from a .properties file.
-     * @throws IOException 
+   /**
+     * Create a new database utility with a specified set of database connection
+     * parameters.
+     * @param _dbProps  database connection parameters
      */
-    public DBUtil() throws IOException
+    public DBUtil(Properties _dbProps)
     {
-        PropertiesUtil pUtil = new PropertiesUtil();
-        dbProps = pUtil.loadParams(FILE_NAME);
+        dbProps = _dbProps;
+        success = false;
     }
     
     /**
@@ -50,6 +51,7 @@ public class DBUtil
             ds.setUrl(dbProps.getProperty("dbPath"));
             ds.setUsername(dbProps.getProperty("dbUser"));
             ds.setPassword(dbProps.getProperty("dbPW"));
+            success = true;
         }
         return ds;
     }
@@ -104,5 +106,16 @@ public class DBUtil
         {
             ds.close();
         }
+    }
+	
+    /**
+     * Returns _success member to indicate whether a connection has been
+     * established during this session. For use on exit, to determine whether
+     * attempting to fix a .chk file is warranted.
+     * @return reference to success member
+     */
+    public boolean getSuccess()
+    {
+        return success;
     }
 } // End class DBUtil
