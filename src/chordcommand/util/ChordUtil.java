@@ -13,14 +13,14 @@ import java.util.regex.Pattern;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /** 
- * @Course: SDEV 435 ~ Applied Software Practice
- * @Author Name: Charlotte Hirschberger
- * @Assignment ChordCommand
- * @Date: Jun 12, 2017
- * @Description: This class contains the methods that validate and verify a
+ * Description: This class contains the methods that validate and verify a
  * chord symbol entry and then interact with a database to retrieve data for
  * building Chord and Scale objects. Upon construction of the ChordUtil object,
  * prepared statements are created for use until the program terminates.
+ * <p>Course: SDEV 435 ~ Applied Software Practice</p>
+ * <p>Author Name: Charlotte Hirschberger</p>
+ * <p>Assignment ChordCommand</p>
+ * Created Date: Jun 12, 2017
  */
 public class ChordUtil 
 {
@@ -71,6 +71,10 @@ public class ChordUtil
         return m.matches();
     }
     
+    /**Removes spaces from a string
+     * @param text text to remove spaces from
+     * @return string without spaces
+     */    
     public String stripSpaces(String text)
     {
         text = text.replaceAll("\\s+","");
