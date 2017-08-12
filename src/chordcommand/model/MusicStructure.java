@@ -3,14 +3,14 @@ package chordcommand.model;
 import java.util.ArrayList;
 
 /** 
- * @Course: SDEV 435 ~ Applied Software Practice
- * @Author Name: Charlotte Hirschberger
- * @Assignment ChordCommand
- * @Date: Jun 12, 2017
- * @Description: The parent class to Chord and Scale. This defines the
+ * Description: The parent class to Chord and Scale. This defines the
  * characteristics that those musical objects share, including pitches,
  * accidentals (represented by numbers), and a major key (which can then be altered
  * by accidentals to produce other sonorities).
+ * <p>Course: SDEV 435 ~ Applied Software Practice</p>
+ * <p>Author Name: Charlotte Hirschberger</p>
+ * <p>Assignment ChordCommand</p>
+ * Created Date: Jun 12, 2017
  */
 public class MusicStructure {
     private static AccidentalMap am;    // maps integers to accidentals
