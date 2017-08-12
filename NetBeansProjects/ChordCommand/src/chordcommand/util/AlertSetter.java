@@ -37,6 +37,41 @@ public class AlertSetter
         result = al.showAndWait();
     }
     
+    /**Returns a prepared alert, so the calling method can take care of displaying
+     * it. Example: calling method populates the dialog with custom buttons.
+     * @param alType Alert.AlertType- error, confirmation, etc
+     * @param title dialog title
+     * @param header heading within dialog
+     * @param content description of error
+     * @return 
+     */
+    public Alert getAlert(Alert.AlertType alType, String title, String header, String content)
+    {
+        Alert al = new Alert(alType);
+        al.setTitle(title);
+        al.setHeaderText(header);
+        al.setContentText(content);
+        
+        return al;
+    }
+    
+    /**
+     * Puts Yes and No buttons in an alert dialog and causes the No button
+     * to trigger System.exit.
+     * @param al the alert object
+     */
+    public void setYesNo(Alert al)
+    {           
+        ButtonType typeYes = new ButtonType("Yes");
+        ButtonType typeNo = new ButtonType("No");
+            
+        al.getButtonTypes().setAll(typeYes, typeNo);
+        Optional<ButtonType> result2 = al.showAndWait();
+            
+        if(result2.get() == typeNo)
+            System.exit(1);
+    }
+    
     /**
      * Output user's choice of button in the Alert
      * @return user's choice
