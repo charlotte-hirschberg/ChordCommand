@@ -23,7 +23,7 @@ public class PropertiesUtil
      * @return Properties--Example: database credentials
      * @throws IOException 
      */
-    public Properties loadParams(String fileName) throws FileNotFoundException, IOException
+    public Properties loadParams(String fileName) throws IOException
     {
         Properties props = new Properties();
         
