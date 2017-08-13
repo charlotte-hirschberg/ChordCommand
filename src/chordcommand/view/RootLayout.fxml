@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<ScrollPane hbarPolicy="NEVER" minWidth="1050.0" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chordcommand.view.RootLayoutController">
+   <content>
+            <GridPane fx:id="frameControlsGP" layoutX="211.0" layoutY="190.0">
+               <children>
+                  <HBox fx:id="holdHelp" alignment="CENTER_RIGHT" prefHeight="82.0" prefWidth="68.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0">
+                     <children>
+                        <StackPane prefHeight="70.0" prefWidth="72.0">
+                           <children>
+                              <Circle onMouseClicked="#handleHelp" radius="25.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Label onMouseClicked="#handleHelp" text="?" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="48.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </StackPane>
+                     </children>
+                  </HBox>
+                  <ImageView fitHeight="89.0" fitWidth="485.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="0">
+                     <image>
+                        <Image url="@ChordCommandLogo%20(1).png" />
+                     </image>
+                  </ImageView>
+                              <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <children>
+                  <VBox fillWidth="false" prefHeight="85.0" prefWidth="157.0">
+                     <children>
+                        <Label text="Recent Chords">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <ListView fx:id="recentChords" prefHeight="146.0" prefWidth="145.0" VBox.vgrow="NEVER" />
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets top="15.0" />
+               </padding>
+            </HBox>
+                  <MenuBar fx:id="menuBar" style="-fx-background-color: derive(ececec,26.4%);" GridPane.columnIndex="0" GridPane.hgrow="NEVER" GridPane.rowIndex="0">
+                    <menus>
+                      <Menu mnemonicParsing="false">
+                        <items>
+                              <MenuItem mnemonicParsing="false" onAction="#handlePrefItem" text="Preferences" />
+                              <MenuItem mnemonicParsing="false" onAction="#handleAboutItem" text="About" />
+                          <MenuItem mnemonicParsing="false" onAction="#handleCloseItem" text="Close" />
+                        </items>
+                           <graphic>
+                              <ImageView fitHeight="45.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@menu_icon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                      </Menu>
+                    </menus>
+                  </MenuBar>
+
+            <HBox fx:id="centerPane" prefHeight="259.0" prefWidth="1000.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+              <children>  
+              </children>
+            </HBox>
+               </children>
+         <columnConstraints>
+            <ColumnConstraints prefWidth="125.0" />
+            <ColumnConstraints prefWidth="1000.0" />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+            </GridPane>
+   </content>
+</ScrollPane>
