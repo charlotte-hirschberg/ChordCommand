@@ -45,8 +45,8 @@ public class ChordCommand extends Application {
     public DBUtil dbUtil;
     private ObservableList<String> instrComboData = FXCollections.observableArrayList();
     private ObservableList<String> keyComboData = FXCollections.observableArrayList();
-    private final static String PREF_FILE = "src/chordcommand/userprefs.properties";
-    private final static String DB_FILE = "src/chordcommand/dbprops.properties";
+    private final static String PREF_FILE = "../src/chordcommand/userprefs.properties";
+    private final static String DB_FILE = "../src/chordcommand/dbprops.properties";
     private PropertiesUtil pu;
     private Properties prefs;
     private Properties dbParam;
