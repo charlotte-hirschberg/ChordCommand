@@ -7,14 +7,14 @@ import javafx.scene.control.CheckBox;
 import javafx.stage.Stage;
 
 /** 
- * @Course: SDEV 435 ~ Applied Software Practice
- * @Author Name: Charlotte Hirschberger
- * @Assignment ChordCommand
- * @Date: Jun 12, 2017
- * @Description: The HelpViewController class interacts with the HelpView.fxml
+ * Description: The HelpViewController class interacts with the HelpView.fxml
  * file, obtaining input from a Button and CheckBox and displaying the Stage
  * when the question-mark icon is clicked. This relies on Controller's empty
  * initialize method.
+ * <p>Course: SDEV 435 ~ Applied Software Practice</p>
+ * <p>Author Name: Charlotte Hirschberger</p>
+ * <p>Assignment ChordCommand</p>
+ * Created Date: Jun 12, 2017
  */
 public class HelpViewController extends Controller
 {
