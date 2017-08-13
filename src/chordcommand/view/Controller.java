@@ -4,12 +4,12 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 
 /** 
- * @Course: SDEV 435 ~ Applied Software Practice
- * @Author Name: Charlotte Hirschberger
- * @Assignment ChordCommand
- * @Date: Jun 12, 2017
- * @Description: Base Controller class that allows the derived controller classes
+ * Description: Base Controller class that allows the derived controller classes
  * to be used in one loadFXML method, despite their otherwise unique composition.
+ * <p>Course: SDEV 435 ~ Applied Software Practice</p>
+ * <p>Author Name: Charlotte Hirschberger</p>
+ * <p>Assignment ChordCommand</p>
+ * Created Date: Jun 12, 2017
  */
 public class Controller 
 {
