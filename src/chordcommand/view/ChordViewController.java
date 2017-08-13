@@ -25,15 +25,15 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.Alert;
 
 /** 
- * @Course: SDEV 435 ~ Applied Software Practice
- * @Author Name: Charlotte Hirschberger
- * @Assignment ChordCommand
- * @Date: Jun 12, 2017
- * @Description: The ChordViewController class interacts with the ChordView.fxml
+ * Description: The ChordViewController class interacts with the ChordView.fxml
  * file, obtaining input from some controls and setting content in others. This
  * controller is responsible for the buttons, combo box, and text fields where a
  * chord symbol is entered and the panes where output appears, including for the
  * piano.
+ * <p>Course: SDEV 435 ~ Applied Software Practice</p>
+ * <p>Author Name: Charlotte Hirschberger</p>
+ * <p>Assignment ChordCommand</p>
+ * Created Date: Jun 12, 2017
  */
 public class ChordViewController extends Controller {
 
